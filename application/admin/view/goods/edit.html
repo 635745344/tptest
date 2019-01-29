@@ -1,0 +1,274 @@
+<style>
+    .h2_2{
+        height: 60px;
+        line-height: 60px;
+        font-size: 24px;
+        margin: 0;
+        padding-left: 20px;
+        border-bottom: 4px solid #418BB8;
+    }
+    .edig_box{
+        background-color: #fff;
+        padding-bottom: 30px;
+        min-height:700px;
+    }
+    h3{
+        margin: 30px;
+        clear: both;
+        text-align: left;
+        font-size: 20px;
+    }
+    .edit_imgBox{
+        width: 170px;
+        height: 170px;
+        display:block;
+        margin: 2px auto;
+        background-color: antiquewhite;
+        border: 5px solid #88e8df;
+        border-radius: 10px;
+        background: url('https://img.zonma.net/chuyangji2018/admin/pd_add.png') center no-repeat;
+        cursor: pointer;
+        position: relative;
+
+    }
+    .edit_imgBox img{
+        width: 160px;
+        height: 160px;
+        border: 3px solid #DFF0FD;
+
+    }
+    .edit_imgBox input{
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        opacity:0;
+        z-index:10;
+        cursor:pointer;
+    }
+    .layui-inline{
+        display:block;
+      padding: 0 40px;
+        margin:0 auto;
+        width:500px;
+    }
+    .layui-form-item .layui-inline{
+        margin:0 auto;
+    }
+    .layui-form-label{
+        width:150px;
+        color: #333;
+        font-size: 18px;
+    }
+     .layui-input-inline{
+        width:190px;
+        height:38px;
+    }
+    .layui-input-inline .inputVal{
+        width:100%;
+        height:100%;
+        border:1px solid #D2D2D2;
+        padding-left:10px;
+    }
+    #update{
+        display:block;
+        margin: 40px auto;
+        border: none;
+        background: #3C8DBC;
+        color: #fff;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 10px;
+        padding: 0 40px;
+    }
+</style>
+<div class="edig_box">
+    <h2 class="edig_h2 h2_2">产品列表</h2>
+    <div class="edit_img">
+        <h3 class="edit_img_title">产品图片</h3>
+        <form class="edit_imgBox" action="/admin/Goods/upload" method="post" enctype="multipart/form-data">
+            <img src="" alt="" id="updateImg">
+            <input type="file" name="image" id="product_input">
+        </form>
+    </div>
+    <hr/>
+    <div class="edit_info">
+        <h3 class="edit_img_title">产品属性</h3>
+        <div class="edit_info_content">
+            <form class="layui-form" id="allocationForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label groove_fenpei" for="groove_fenpei">生产公司:</label>
+                        <div class="layui-input-inline">
+                            <select name="groove_fenpei" id="groove_fenpei" lay-filter="groove1" lay-search>
+                                <option value="0">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-form-item">
+                <div class="layui-inline clearfix">
+                    <label class="layui-form-label" for="product_name">产品名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="product_name" class="inputVal">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline clearfix">
+                    <label class="layui-form-label" for="product_coding">产品代码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="product_coding" class="inputVal">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline clearfix">
+                    <label class="layui-form-label" for="product_info">产品描述</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="product_info" class="inputVal">
+                    </div>
+                </div>
+            </div>
+            <form class="layui-form" >
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label groove_fenpei" for="isShow">是否显示:</label>
+                        <div class="layui-input-inline">
+                            <select name="groove_fenpei" id="isShow" lay-filter="groove2" lay-search>
+                                <option value="1">显示</option>
+                                <option value="0">隐藏</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+        <button id="update">提交保存</button>
+</div>
+<script>
+    $(function(){
+        var goods={$goods},brand={$brand},status=null,goods_brand_id=null;
+
+        layui.use('form', function() {
+            var form = layui.form;
+            //form.render('select');
+
+
+            var str="";
+            for(var i=0;i<brand.length;i++){
+                str+='<option value="'+brand[i].goods_brand+'">'+brand[i].brand_name+'</option>'
+            }
+            $("#groove_fenpei").append(str)
+            if(goods){
+                if(goods.img_url){
+                    $("#updateImg").attr("src",goods.img_url)
+                    $(".edit_imgBox").css("background","");
+                }
+                $("#product_name").val(goods.name)
+                $("#product_coding").val(goods.goods_code)
+                $("#product_info").val(goods.describe)
+                $("#isShow").val(goods.status)
+                $("#groove_fenpei").val(goods.goods_brand_id);
+            }
+            form.render('select');
+            form.on('select(groove1)', function(data){
+                goods_brand_id =data.goods_brand_id;
+            })
+            form.on('select(groove2)', function(data){
+                status =data.value
+            })
+            $("#product_input").change(function(){
+                var that =this;
+                var imgType = $(this).val().substr($(this).val().lastIndexOf(".")+1,$(this).val().length).toLocaleLowerCase();
+                if(!(imgType === "jpg" || imgType === "png" || imgType === "jpeg" || imgType === "bmp")){
+                    prompt("请上传jpg、jpeg、png、bmp格式的图片");
+                    return;
+                }
+                $(this).parents("form").ajaxSubmit({
+                    resetForm:false,
+                    dataType:'json',
+                    beforeSubmit:function () {
+                        load("正在上传");
+                    },
+                    success:function(result){
+                        layer.closeAll();
+                        if(result.status==1){
+                            $("#updateImg").attr("src",result.data)
+                            $(".edit_imgBox").css("background","");
+                            prompt("上传成功")
+
+                        }else{
+                            prompt(result.info);
+                        }
+
+                    },
+                    error: function (data) {
+                        prompt(JSON.stringify(data));
+                        layer.closeAll();
+                    }
+                })
+            })
+            //保存
+            $("#update").on("click",function(){
+                var product_name =$("#product_name").val()
+                if(!product_name){
+                    layer.msg("产品名称必填")
+                    return ;
+                }
+                var data ={
+                    name: product_name,
+                    img_url:$("#updateImg").attr("src"),
+                    status:status||1,
+                    goods_brand_id:goods_brand_id,
+                    describe:$("#product_info").val(),
+                    goods_code:$("#product_coding").val()
+                }
+                if(goods.id){
+                    data.id=goods.id;
+                }
+                $.ajax({
+                    data:data,
+                    url:'/admin/goods/add',
+                    type:"post",
+                    success:function(res){
+                       if(res.status==1){
+                           prompt("提交成功")
+                       }else{
+                           prompt(res.info)
+                       }
+                    },
+                    error:function(err){
+                        alert(JSON.stringify(err))
+                    }
+                })
+            })
+        })
+        //加载
+        function load(text){
+            layer.load(3,{
+                content:text,
+                shade:0.5,
+            });
+
+        }
+        //提示
+        function prompt(text,time){
+            layer.open({
+                title:"提示信息",
+                btnAlign:"c",
+                content:"<p style='text-align:center;font-size:18px;'>"+text+"</p>",
+                time:time||6000,
+                shade:0.6
+
+            })
+
+
+        }
+    })
+</script>

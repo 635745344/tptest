@@ -1,0 +1,96 @@
+{extend name='common@public/group'}
+{block name="content"}
+<body id="index_1510826929"
+	class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<header class="main-header">
+			<a class="logo">组后台管理系统
+			</a>
+			<nav class="navbar navbar-static-top" role="navigation">
+				<!--<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+					role="button"> <span class="sr-only">Toggle navigation</span>
+				</a>-->
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<!-- 选择公众号 -->
+						<!--<li class="dropdown notifications-menu"><a href="#"-->
+							<!--class="dropdown-toggle" data-toggle="dropdown"> <i-->
+								<!--class="fa fa-wechat">&nbsp;&nbsp;未选择公众号</i>-->
+						<!--</a>-->
+							<!--<ul class="dropdown-menu">-->
+								<!--<li class="header">选择公众号</li>-->
+								<!--<li>-->
+									<!--<ul class="menu">-->
+										<!--<li><a> <i class="fa fa-wechat">&nbsp;&nbsp;&nbsp;啊滴生活小助手</i>-->
+										<!--</a></li>-->
+									<!--</ul>-->
+								<!--</li>-->
+							<!--</ul></li>-->
+						<!-- 头像 -->
+						<li class="dropdown user user-menu btn-group">
+							<!-- <div class=""> --> <a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"> <!--<img src="{$admin['head_img']}"
+								class="user-image" alt="User Image">--> <span
+								class="hidden-xs">{$admin["user_name"]}</span> <i class="glyphicon glyphicon-menu-down"></i>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- User image -->
+								<li class="user-header">
+									<!-- http://img.eacoomall.com/images/static/assets/img/default-avatar.svg -->
+									<img src="{$admin['head_img']}" class="img-circle"
+									alt="User Image">
+
+									<p>
+										{$admin["user_name"]} <small>注册时间：<?php echo $admin["add_time"] ?></small>
+									</p>
+								</li>
+								<li class="user-footer">
+									<div class="pull-left">
+										<a onclick="$.m.admin.edit_pwd()"
+											class="btn btn-default btn-flat">修改密码</a>
+									</div>
+									<div class="pull-right">
+										<a onclick="$.m.admin.login_out()"
+											class="loginout btn btn-default btn-flat">退出</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<aside class="main-sidebar">
+			<section class="sidebar">
+				<ul id='menu' class="sidebar-menu" data-widget="tree">
+					<li class="treeview"><a name="menu_url" onclick="$.m.admin.load_home()"><i
+							class="fa fa-home"></i> <span>首页</span></a></li>
+				</ul>
+			</section>
+		</aside>
+		<div class="content-wrapper">
+			<section class="content container-fluid" style="padding: 6px">
+				<div class="row">
+					<div id='content_1510826929' class="col-xs-12"></div>
+				</div>
+			</section>
+		</div>
+		<div class="control-sidebar-bg"></div>
+	</div>
+</body>
+<form id="form_edit_pwd_1510826929" class="dd-form">
+	<div>
+		新密码<input type="password" name="password1">
+	</div>
+	<div>
+		确认密码<input type="password" name="password2">
+	</div>
+</form>
+<!---->
+{/block}{block name="script"}
+<script type="text/javascript" >
+    $.menu_data={$menu};
+</script>
+
+<script type="text/javascript" src="/static/js/admin/admin/index_group.js"></script>
+{/block}

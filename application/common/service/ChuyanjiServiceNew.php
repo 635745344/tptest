@@ -1,0 +1,524 @@
+<?php
+
+namespace app\common\service;
+use JPush\Client as JPush;
+use think\Exception;
+use think\Request;
+use think\Db;
+use think\Controller;
+
+class ChuyanjiServiceNew
+{
+    protected $app_key='f6fbf60b91869a61b7f39bc6';
+    protected $master_secret='afeab50ff455cf3f57077e5b';
+    protected $client;
+
+    public function __construct()
+    {
+        vendor('JPush.autoload');
+        $this->client = new JPush($this->app_key, $this->master_secret);
+    }
+    //推送广告修改通知
+    public function pushImgInfo($msg)
+    {
+        //->setNotificationAlert($msg)
+        $result = $this->client->push()->setPlatform('all')->addAllAudience()->message($msg, array(
+            'title' => '广告修改',
+            'content_type' => 'text',
+        ))->setOptions(1,0)->send();
+
+        $result = json_decode(json_encode($result),true);
+
+        $is_success=true;
+        if( !empty($result['body']['msg_id']) )
+        {
+            $msg_id=(float)($result['body']['msg_id']);
+
+            $equipments=Db::name('equipment')->field('registration_id')->where(['status'=>1])->select();
+
+            $registration_ids=[];
+            foreach ($equipments as $k=>$v)
+            {
+                if(!empty($v['registration_id'])){
+                    $registration_ids[]=$v['registration_id'];
+                }
+            }
+            $reason='';
+            try{
+                $result = $this->getPush($msg_id,$registration_ids);
+            }catch (\Exception $e){
+                $result=[];
+                $reason=$e->getMessage();
+            }
+
+            if(empty($result)){
+                $result='';
+            }else{
+                $result=json_encode($result);
+            }
+            //添加推送日志
+            Db::name('push_log')->insert(['type'=>2,'msg_id'=>$msg_id,'reason'=>$reason,'result'=>$result,'status'=>1,'create_time'=>time()]);
+
+        }else{
+            Db::name('push_log')->insert(['type'=>2,'status'=>0,'reason'=>$result,'create_time'=>time()]);
+            $is_success=false;
+        }
+        return $is_success;
+    }
+    //推送广告修改通知组
+    public function pushImgInfoGroup($msg,$registration_id,$push_code)
+    {
+        $push_log_data=[
+            'type'=>2,
+            'create_time'=>time(),
+            'push_code'=>$push_code,
+        ];
+        $push_id=Db::name('push_log')->insertGetId($push_log_data);
+
+        //->setNotificationAlert($msg)
+        $result = $this->client->push()->setPlatform('all')->addRegistrationId($registration_id)->message($msg, array(
+            'title' => '广告修改',
+            'content_type' => 'text',
+        ))->setOptions(1,0)->send();
+
+        $result = json_decode(json_encode($result),true);
+
+        $is_success=true;
+        if( !empty($result['body']['msg_id']) )
+        {
+            $msg_id=(float)($result['body']['msg_id']);
+
+            $equipments=Db::name('equipment')->field('registration_id')->where(['status'=>1])->select();
+
+            $registration_ids=[];
+            foreach ($equipments as $k=>$v)
+            {
+                if(!empty($v['registration_id'])){
+                    $registration_ids[]=$v['registration_id'];
+                }
+            }
+            $reason='';
+            try{
+                $result = $this->getPush($msg_id,$registration_ids);
+            }catch (\Exception $e){
+                $result=[];
+                $reason=$e->getMessage();
+            }
+
+            if(empty($result)){
+                $result='';
+            }else{
+                $result=json_encode($result);
+            }
+            //添加推送日志
+            Db::name('push_log')->where(['id'=>$push_id])->update(['msg_id'=>$msg_id,'reason'=>$reason,'result'=>$result,'status'=>1]);
+
+        }else{
+            Db::name('push_log')->where(['id'=>$push_id])->update(['status'=>0,'reason'=>$result]);
+            $is_success=false;
+        }
+        return $is_success;
+    }
+    //出烟通知
+    public function pushSmoke($msg,$registration_id,$openid,$eq_code,$goods_id,$groove_num,$push_code='')
+    {
+        $log_data=[
+            'type'=>3,
+            'create_time'=>time(),
+            'push_code'=>$push_code,
+        ];
+        $push_id=Db::name('push_log')->insertGetId($log_data);
+
+        $check_receive = DB::name('receive_record')->where(['push_code'=>$push_code])->find();
+        if(!$check_receive)
+        {
+            P(['add_receive',$push_code,date('Y-m-d H:i:s',time())]);
+            $receive_data=[
+                'push_id'=>$push_id,
+                'create_time'=>time(),
+                'count'=>1,
+                'wx_account_id'=>1,
+                'openid'=>$openid,
+                'eq_code'=>$eq_code,
+                'push_code'=>$push_code,
+                'goods_id'=>$goods_id,
+                'groove_num'=>$groove_num
+            ];
+
+            $receive_data['status']=1;
+            Db::name('receive_record')->insert($receive_data);
+        }
+
+       $result = $this->client->push()->setPlatform('all')->addRegistrationId($registration_id)->message($msg, array(
+           'title' => '出烟通知',
+           'content_type' => 'text',
+       ))->setOptions(1,0)->send();
+
+        $result = json_decode(json_encode($result),true);
+        
+        $is_success=true;
+        $push_log_data=[
+            'type'=>3,
+            'create_time'=>time(),
+            'push_code'=>$push_code,
+        ];
+
+        if( !empty($result['body']['msg_id']) )
+        {
+            $msg_id=(float)$result['body']['msg_id'];
+            //添加推送日志
+            $push_log_data['msg_id']=$msg_id;
+            $push_log_data['status']=1;
+            try{
+                $push_log_data['result']=json_encode($this->getPush($msg_id,[$registration_id])) ;
+//          $push_log_data['result']=json_encode($this->getPush($msg_id,['160a3797c8296f7c365'])) ;
+            }catch (\Exception $e){
+                $push_log_data['reason']=$e->getMessage();
+            }
+            $push_id=Db::name('push_log')->where(['id'=>$push_id])->update($push_log_data);
+        }else{
+            $is_success=false;
+            $push_log_data['status']=0;
+            $push_id=Db::name('push_log')->where(['id'=>$push_id])->update($push_log_data);
+        }
+
+        if($is_success)
+        {
+            $receive_data['status']=1;
+            Db::name('receive_record')->where(['push_code'=>$push_code])->update($receive_data);
+        }else{
+            $receive_data['status']=0;
+            $receive_data['reason']=json_encode($result);
+            Db::name('receive_record')->where(['push_code'=>$push_code])->update($receive_data);
+        }
+
+        return $is_success;
+    }
+
+    //出烟通知2新增循环查询状态
+    public function pushSmokeTwo($msg,$registration_id,$openid,$eq_code,$goods_id,$groove_num,$push_code='')
+    {
+        $log_data=[
+            'type'=>3,
+            'create_time'=>time(),
+            'push_code'=>$push_code,
+        ];
+        P(['jg_push_log',$log_data]);
+        $push_id=Db::name('push_log')->insertGetId($log_data);
+
+        $result = $this->client->push()->setPlatform('all')->addRegistrationId($registration_id)->message($msg, array(
+            'title' => '出烟通知',
+            'content_type' => 'text',
+        ))->setOptions(1,0)->send();
+
+
+        $result = json_decode(json_encode($result),true);
+        $is_success=true;
+        $push_log_data=[
+            'type'=>3,
+            'create_time'=>time(),
+            'push_code'=>$push_code,
+        ];
+        if( !empty($result['body']['msg_id']) )
+        {
+            $m_id=$result['body']['msg_id'];
+            $msg_id = (float)$m_id;
+            //添加推送日志
+            sleep(1);
+            $push_log_data['msg_id']=$msg_id;
+            $push_log_data['status']=1;
+            try{
+                //新增部分
+                $msg_status = json_encode($this->getPush($msg_id,[$registration_id]));
+                $result_arr = json_decode($msg_status,true);
+                if($result_arr[$registration_id]['status']!=0)
+                {
+                    $is_success = false;
+                    for ($i=0; $i<4; $i++)
+                    {
+                        sleep(3);
+                        $beg = json_encode($this->getPush($msg_id,[$registration_id]));
+                        $arr = json_decode($beg,true);
+                        if($arr[$registration_id]['status']==0)
+                        {
+                            $msg_status = $beg;
+                            $is_success = true;
+                            break;
+                        }
+                    }
+
+                }else{
+                    $is_success = true;
+                }
+                $push_log_data['result'] = $msg_status;
+                //end
+            }catch (\Exception $e){
+                $is_success = false;
+                $push_log_data['reason']=$e->getMessage();
+            }
+
+            Db::name('push_log')->where(['id'=>$push_id])->update($push_log_data);
+        }else{
+            $is_success=false;
+            $push_log_data['status']=0;
+            Db::name('push_log')->where(['id'=>$push_id])->update($push_log_data);
+        }
+        $check_receive = DB::name('receive_record')->where(['push_code'=>$push_code])->find();
+        if(!$check_receive)
+        {
+            $receive_data=[
+                'push_id'=>$push_id,
+                'create_time'=>time(),
+                'count'=>1,
+                'wx_account_id'=>1,
+                'openid'=>$openid,
+                'eq_code'=>$eq_code,
+                'push_code'=>$push_code,
+                'goods_id'=>$goods_id,
+                'groove_num'=>$groove_num
+            ];
+            if($is_success){
+                $receive_data['status']=1;
+                Db::name('receive_record')->insert($receive_data);
+            }else{
+                $receive_data['status']=0;
+                $receive_data['reason']=json_encode($result);
+                Db::name('receive_record')->insert($receive_data);
+            }
+
+        }
+        return $is_success;
+    }
+    //获取推送结果
+    public function getPush($msg_id,$rids)
+    {
+        $report = $this->client->report();
+        P('getPush_msg_id_'.$msg_id);
+        $registration_ids=[];
+        $result=[];
+        $count=0;
+        $all_count=count($rids);
+        foreach ($rids as $k=>$v)
+        {
+            if(!empty($v)){
+                $registration_ids[]=$v;
+                $count++;
+            }
+//          var_dump($msg_id);exit();
+            if($count>=1000  || $k+1 >= $all_count){
+                $request = $report->getMessageStatus((float)$msg_id,$registration_ids);
+                if(empty($request['body']['error']))
+                {
+                    $request = json_decode( json_encode($request['body']) );
+                    foreach ($request as $k_request=>$v_request){
+                        $result[$k_request]=$v_request;
+                    }
+                }
+
+                $count=0;
+            }
+        }
+        return $result;
+    }
+    //检查是否在线
+    public function isOnLine($cycle)
+    {
+//      ->setNotificationAlert(json_encode(['type'=>1]))
+        $result = $this->client->push()->setPlatform(['android'])->addAllAudience()->message(json_encode(['type'=>1]), array(
+            'title' => '检查在线情况',
+            'content_type' => 'text',
+        ))->send();
+
+        $result = json_decode(json_encode($result),true);
+
+        $is_success=true;
+        if( !empty($result['body']['msg_id']) )
+        {
+            $msg_id= (float)$result['body']['msg_id'];
+
+            $equipments=Db::name('equipment')->field('registration_id')->select();
+
+            $registration_ids=[];
+            foreach ($equipments as $k=>$v)
+            {
+                if(!empty($v['registration_id'])){
+                    $registration_ids[]=$v['registration_id'];
+                }
+            }
+            $result=[];
+            $reason='';
+            try{
+                $result = $this->getPush($msg_id,$registration_ids);
+            }
+            catch (\Exception $e){
+                $reason=$e->getMessage();
+            }
+            $result=json_decode(json_encode($result),true);
+
+//            //添加推送日志
+//            Db::name('push_log')->insert(['type'=>1,'msg_id'=>$msg_id,'result'=>json_encode($result),'status'=>1,'create_time'=>time()]);
+            if(!empty($result)){
+
+                $eq_zx=[]; //在线
+                $eq_lx=[]; //离线
+
+                foreach ($result as $k_result=>$v_result)
+                {
+                    if(in_array($v_result['status'],[0]) ) //送达
+                    {
+                        $eq_zx[]=$k_result;
+                    }
+                }
+
+                $all_eq = Db::name('equipment')->field('id,registration_id,status')->select();
+
+                foreach ($all_eq as $k_all_eq=>$v_all_eq)
+                {
+                    $is_lx=true;
+                    foreach ($eq_zx as $k_eq_zx=>$v_eq_zx)
+                    {
+                        if($v_all_eq['registration_id']==$v_eq_zx){
+                            $is_lx=false;
+                        }
+                    }
+                    if($is_lx){
+                        $eq_lx[]=$v_all_eq['registration_id'];
+                    }
+                }
+
+                Db::name('equipment')->where(['registration_id'=>['in',$eq_zx]])->update(['status'=>1]); //在线
+                Db::name('equipment')->where(['registration_id'=>['in',$eq_lx]])->update(['status'=>0]); //离线
+
+                $registration_ids='';
+                foreach ($eq_zx as $k_eq_zx => $v_eq_zx){
+                    $registration_ids .= "'".$v_eq_zx."'".",";
+                }
+                $registration_ids=substr($registration_ids,0,strlen($registration_ids)-1);
+
+                if(!empty($registration_ids)){
+                    Db::execute(' update sp_equipment set run_time = run_time+'.$cycle.' where registration_id in ('.$registration_ids.')');
+                }
+            }
+
+           Db::name('push_log')->insert(['type'=>1,'status'=>1,'msg_id'=>$msg_id,'result'=>json_encode($result),'reason'=>$reason,'create_time'=>time()]);
+
+        } else
+        {
+            Db::name('push_log')->insert(['type'=>1,'status'=>0,'reason'=>$result,'create_time'=>time()]);
+            $is_success=false;
+        }
+        return $is_success;
+    }
+
+    //推送新URL
+    public function pushUrl($msg,$registration_id,$push_code=''){
+
+        $push_log_data=[
+            'type'=>4,
+            'create_time'=>time(),
+            'push_code'=>$push_code,
+        ];
+        $push_id=Db::name('push_log')->insertGetId($push_log_data);
+
+        $result = $this->client->push()->setPlatform('all')->addRegistrationId($registration_id)->message($msg, array(
+            'title' => '地址更新',
+            'content_type' => 'text',
+        ))->setOptions(1,0)->send();
+
+        $result = json_decode(json_encode($result),true);
+        $is_success=true;
+
+        $push_log_data=[
+            'type'=>4,
+            'create_time'=>time(),
+            'push_code'=>$push_code,
+        ];
+
+        if( !empty($result['body']['msg_id']) )
+        {
+            $msg_id=(float)$result['body']['msg_id'];
+            //添加推送日志
+            $push_log_data['msg_id']=$msg_id;
+            $push_log_data['status']=1;
+
+            try{
+                $push_log_data['result']=json_encode($this->getPush($msg_id,[$registration_id])) ;
+            }catch (\Exception $e){
+                $push_log_data['reason']=$e->getMessage();
+            }
+
+            Db::name('push_log')->where(['id'=>$push_id])->update($push_log_data);
+        }else{
+            $is_success=false;
+            $push_log_data['status']=0;
+            Db::name('push_log')->where(['id'=>$push_id])->update($push_log_data);
+        }
+
+        return $is_success;
+       
+    }
+
+    public function pushSmokeTwoTest($msg,$registration_id)
+    {
+        $result = $this->client->push()->setPlatform('all')->addRegistrationId($registration_id)->message($msg, array(
+            'title' => '出烟通知',
+            'content_type' => 'text',
+        ))->setOptions(1,0)->send();
+
+        $result = json_decode(json_encode($result),true);
+        dump($result);
+        $is_success=true;
+        $push_log_data=[
+            'type'=>3,
+            'create_time'=>time()
+        ];
+        $push_id=0;
+        if( !empty($result['body']['msg_id']) )
+        {
+            $m_id=$result['body']['msg_id'];
+            $msg_id = (float)$m_id;
+            //添加推送日志
+            $push_log_data['msg_id']=$msg_id;
+            $push_log_data['status']=1;
+//            try{
+                //新增部分
+            dump($msg_id);
+                $msg_status = json_encode($this->getPush($msg_id,[$registration_id]));
+                $result_arr = json_decode($msg_status,true);
+            dump($result_arr);
+            if($result_arr[$registration_id]['status']!=0)
+                {
+                    $is_success = false;
+                    for ($i=0; $i<4; $i++)
+                    {
+                        sleep(2);
+                        $beg = json_encode($this->getPush($msg_id,[$registration_id]));
+                        $arr = json_decode($beg,true);
+                        dump($arr);
+                        if($arr[$registration_id]['status']==0)
+                        {
+                            $msg_status = $beg;
+                            $is_success = true;
+                            break;
+                        }
+                    }
+
+                }else{
+                    $is_success = true;
+                }
+                $push_log_data['result'] = $msg_status;
+//                //end
+//            }catch (\Exception $e){
+//                var_dump('catch_'.$msg_id);
+//                $is_success = false;
+//                $push_log_data['reason']=$e->getMessage();
+//            }
+        }else{
+            $is_success=false;
+        }
+
+
+        return $is_success;
+    }
+}
+

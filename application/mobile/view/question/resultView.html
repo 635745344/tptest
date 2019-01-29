@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="/static/mobile/question/css/Base.css" rel="stylesheet">
+
+    <!--问卷调查样式-->
+    <link href="/static/mobile/question/css/Questionnaire.css" rel="stylesheet" />
+    <link href="/static/mobile/question/css/ydui.css" rel="stylesheet" />
+    <script src="/plugin/jquery/jquery-3.2.1.min.js"></script>
+    <style>
+        body {
+            background-color: #FDEFD7;
+            overflow: hidden;
+        }
+        img{
+            display:block;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 100%; text-align: center; padding-top: 50%; padding-bottom: 100%" class="bo">
+    <img src="/static/mobile/question/image/tip.png" style="width: 20%"/>
+    <br/>
+    <br/>
+
+    <div style="width: 100%; text-align: center" id="Tip"></div>
+</div>
+<script>
+    //获取url参数
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        return r[2];
+    }
+   /* var tips = {
+        "1": "您已经填过了！",
+        "2": "问卷调查时间已经结束",
+        "3": "问卷调查时间还没开始"
+    };*/
+    $("#Tip").html('{$msg}');
+
+
+</script>
+</body>
+</html>

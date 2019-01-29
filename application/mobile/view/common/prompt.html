@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <script src="/plugin/mobile/flexible_css.debug.js"></script>
+    <script src="/plugin/mobile//flexible.debug.js"></script>
+    <script src="/plugin/mobile//makegrid.debug.js"></script>
+    <link rel="stylesheet" href="/static/mobile/css/base.css">
+    <title>送烟机系统</title>
+    <style>
+        html, body{
+            background:#fff;
+            overflow-x: hidden;
+        }
+        .container{
+            width:60%;
+            margin:3rem auto 0;
+            padding:0;
+            height:8rem;
+            background-size:contain;
+        }
+        .container img{
+            width:80%;
+            height:80%;
+            margin-top:50%;
+            margin-left:50%;
+            transform:translate(-50%,-80%);
+        }
+        p{
+            text-align:center;
+            line-height:0.8rem;
+            font-size:0.5rem;
+            font-weight:bold;
+        }
+        p:nth-child(3){
+            color:#777777;
+            font-size:0.45rem;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="container">
+        <img src="/static/image/mobile/prompt.gif">
+    </div>
+    <div class="guanzhu">
+        <p>加入成功</p>
+        <p>恭喜你成为店铺管理员</p>
+    </div>
+</div>
+<script src="/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script>
+    $(".container").height($(".container").width()*0.8);
+    $(".container img").height($(".container img").width());
+    var status =getQueryString('status');
+    if(status==2){
+        $(".guanzhu").html('<p>二维码已过有效期</p>');
+    }else if(status==3){
+        $(".guanzhu").html('<p>签名验证不通过</p>');
+    } else if(status==4){
+        $(".guanzhu").html('<p>已经加入成功，不可重复添加</p>');
+    }
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        console.log(reg);
+        var r = window.location.search.substr(1).match(reg);
+        console.log(r);
+        if(!r){
+            return;
+        }
+        return r[2];
+    }
+</script>
+</body>
+</html>

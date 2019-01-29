@@ -1,0 +1,27 @@
+<div id="main_1511010745" class="box box-body" style="margin:0">
+    <!-- 工具栏与搜索框 -->
+    <div class="row">
+        <div class="col-md-8 dd-toolbar"></div>
+    </div>
+    <div class="row dd-table"></div><!-- 表格 -->
+</div>
+<!-- 表单 -->
+<form id="form_1511010745" class="dd-form" style="display:none;" >
+    <div>菜单名称<input name="name" /></div>
+    <div id="div_icon">图标
+        <div>
+            <input name="icon" class="form-control" />
+            <a href="http://fontawesome.dashgame.com" target="_blank" class="form-control">选择图标</a>
+        </div>
+    </div>
+    <div id="div_url">链接<input name="url" /></div>
+    <div>排序<div>
+        <select name="parent_id" data-group="a" data-url="/admin/menu/parent_one" data-is_first='false'  class="form-control"></select>
+        <select name="parent_id2" data-group="a" data-url="/admin/menu/parent_list" data-is_first='false' class="form-control"></select>
+        <div data-type="chk" data-is_one='true'>
+            之后&nbsp;&nbsp;<input type="radio" name="sort" value="2" checked="true">
+            之前&nbsp;&nbsp;<input type="radio" name="sort" value="1" >
+        </div>
+    </div></div>
+</form>
+<?php get_js(); ?>

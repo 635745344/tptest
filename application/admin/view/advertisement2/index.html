@@ -1,0 +1,864 @@
+<style>
+    /*.banner_box{
+        width:98%;
+        margin:0 auto;
+    }*/
+    /*.banner_h2{
+        height:60px;
+        line-height:60px;
+        font-size:24px;
+        margin:0;
+        border-bottom: 4px solid #418BB8;
+    }*/
+    .h2_2{
+        height:80px;
+        line-height:80px;
+        border-bottom:4px solid #D2D5DE;
+        font-size:24px;
+        padding-left:20px;
+        margin-bottom: 0;
+    }
+    .banner_content{
+        background-color:#fff;
+    }
+    .banner_content h3{
+        font-size:20px;
+        color:#6A6A6A;
+        height:54px;
+        line-height:54px;
+        border-bottom:1px solid #F1F1F1;
+        padding-left:10px;
+        margin:0;
+    }
+    .banner_content ul.banner_content_ul{
+        margin:0;
+
+        padding:0 0 30px 0;
+        list-style:none;
+    }
+    .banner_content ul li{
+        position:relative;
+        float:left;
+        width:calc((100% - 90px) / 3);
+        height:300px;
+        margin:20px 15px 0;
+        border:1px solid #f1f1f1;
+    }
+    .banner_title_box{
+        width:100%;
+        height:54px;
+        border-bottom: 1px solid #f1f1f1;
+    }
+    .banner_title_content{
+        width:85%;
+        margin:0 auto;
+        height:100%;
+        line-height:54px;
+    }
+    .banner_title_content span{
+        float:left;
+        color:#9B9A9F;
+    }
+    .banner_title_content div{
+        width:150px;
+        height:32px;
+        border:1px solid #EBEBEB;
+        line-height:32px;
+        margin:11px 0;
+        font-size:14px;
+        float:right;
+        border-radius:8px;
+    }
+    .banner_title_content div button{
+        border:none;
+        float:left;
+        height:100%;
+        width:50%;
+        line-height:30px;
+        text-align:center;
+        background:#DFDFDF;
+        color:#fff;
+    }
+    .banner_title_content div button:hover{
+        font-size:16px;
+    }
+    .banner_title_content div button:nth-child(1){
+        border-radius:8px 0 0 8px;
+
+    }
+    .banner_title_content div button:nth-child(2){
+        border-radius:0 8px 8px 0;
+
+    }
+    .bannerImg_box,.bannerImg_emport{
+        position:relative;
+        margin:10px auto;
+        border:1px solid #fff;
+        width:90%;
+        height:225px;
+        cursor:pointer;
+    }
+    .bannerImg_emport{
+        display:none;
+    }
+    .bannerImg_box img{
+        width:100%;
+        height:100%;
+    }
+    .bannerImg_hover{
+        display:none;
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,.7);
+    }
+    .bannerImg_emport{
+        background:#ECEDF1;
+        color:#fff;
+        font-size:50px;
+        text-align:center;
+        position:relative;
+        line-height:4.5;
+    }
+    .bannerImg_emport input{
+        cursor:pointer;
+        width:100%;
+        height:100%;
+        position:absolute;
+        top:0;
+        left:0;
+        opacity: 0;
+    }
+    .bannerImg_box:hover .bannerImg_hover{
+        display:block;
+    }
+    .bannerImg_hover ul{
+        width:50%;
+        height:20%;
+        margin:15% 25% 0;
+        color:#fff;
+    }
+    .bannerImg_hover ul li{
+        cursor:pointer;
+        height:100%;
+        width:50%;
+        line-height:20%;
+        text-align:center;
+        border:none;
+        font-size:12px;
+        margin:0;
+    }
+    .bannerImg_hover ul li span{
+        display:block;
+        height:24px;
+        line-height:24px;
+        margin-top:5px;
+    }
+    .bannerImg_hover ul li:nth-child(2){
+        float:right;
+    }
+    .bannerImg_hover ul li .hoverI{
+        cursor:pointer;
+        position:relative;
+        display:block;
+        width:48px;
+        height:48px;
+        margin:0 auto;
+        background: url("/static/image/admin/cssprise.png") 0 -50px no-repeat;
+    }
+    .bannerImg_hover ul li .hoverI input{
+        position:absolute;
+        cursor:pointer;
+        opacity:0;
+        width:100%;
+        height:100%;
+        top:0;
+        left:0;
+        border:1px solid #bbb;
+    }
+    .bannerImg_hover ul li .hoverI form{
+        width:100%;
+        height:100%;
+    }
+    .bannerImg_hover ul li i.delete{
+        background: url("/static/image/admin/cssprise.png") 0 0 no-repeat;
+    }
+    .stop_title,.p_budate{
+        padding-left:15px;
+        font-size:18px;
+        font-family:"Arial";
+        line-height:80px;
+    }
+
+    .stop_title input{
+        width:80px;
+        height:30px;
+        line-height:40px;
+        border:1px solid #bbb;
+        border-radius:10px;
+        margin:0 15px 5px 60px;
+        padding-left:15px;
+        box-sizing:content-box;
+        padding-bottom:5px;
+
+
+    }
+    /*input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }*/
+    .p_budate{
+        height:80px;
+        line-height:40px;
+    }
+    #update{
+        margin :20px  0 0 120px;
+        border:none;
+        background:#3C8DBC;
+        color:#fff;
+        text-align:center;
+        height:40px;
+        line-height:40px;
+        border-radius:10px;
+        padding:0 40px;
+    }
+    .banner_btn_box .btnShow{
+        background:#F4F4F4;
+        color:#939393;
+    }
+    .banner_btn_box i{
+        box-sizing: content-box;
+        display:inline-block;
+        width:12px;
+        height:12px;
+        background:#E6E6E6;
+       position:relative;
+        top:1px;
+        left:-5px;
+    }
+    .banner_btn_box .btnShow .Ishow{
+        background:#DD4B39;
+    }
+    .banner_btn_box .btnShow .Ihide{
+        background:#DD4B39;
+    }
+    .layui-form-item .groove_fenpei{
+        width:300px;
+        font-size:24px;
+        color:#000;
+        margin-top:20px;
+    }
+    .layui-input-inline{
+        margin-top:20px;
+    }
+    .videoContent .videoInfo{
+        display:inline-block;
+        font-size: 24px;
+        color: #000;
+        height: 54px;
+        line-height: 54px;
+        margin-left:40px;
+    }
+    .videoContent form{
+        position:relative;
+    }
+    .videoContent form button{
+        position:absolute;
+        top:10px;
+        left:170px;
+        background:#1E9FFF;
+        color: #fff;
+        font-size:20px;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 10px;
+        padding: 0 40px;
+        border:none;
+    }
+    .videoContent label{
+        display:block;
+    }
+    .videoContent label input{
+        display:inline-block;
+        width:200px;
+        height:54px;
+        line-height:54px;
+        opacity:0;
+        position:absolute;
+        z-index:100;
+        cursor:pointer;
+    }
+</style>
+<div class="banner_box content_box">
+    <h2 class="banner_h2 content_h2">广告轮播页面</h2>
+    <div class="banner_content">
+        <div class="content_top">
+            <form class="layui-form" id="allocationForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label groove_fenpei" for="groove_fenpei">请选择要配置的烟机组:</label>
+                        <div class="layui-input-inline">
+                            <select name="groove_fenpei" id="groove_fenpei" lay-filter="groove1">
+                                <option value="0">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="content_top">
+            <form class="layui-form" id="zhangshi">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label groove_fenpei" for="groove_fenpei2">请选择要展示的内容:</label>
+                        <div class="layui-input-inline">
+                            <select name="groove_fenpei2" id="groove_fenpei2" lay-filter="groove2">
+                                <option value="0">请选择</option>
+                                <option value="1">图片</option>
+                                <option value="2">视频</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+     <input type="hidden" id="peopleId">
+        <div id="imgShow" >
+            <h3>请上传需要展示的广告图片</h3>
+            <ul class="clearfix banner_content_ul">
+                <li id="banner_1">
+                    <div class="banner_title_box">
+                        <div class="banner_title_content">
+                            <span>广告1</span>
+                            <div class="banner_btn_box" status="">
+                                <button class=" openBtn"> <i class="Ishow"></i>显示</button>
+                                <button class="cancalBtn"> <i class="Ihide"></i>隐藏</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bannerImg_box">
+                        <img class="banner_img" src="" alt="">
+                        <div class="bannerImg_hover">
+                            <ul>
+                                <li> <i class="hoverI replace"><form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="image"></form></i> <span>替换图片</span></li>
+                                <li><i class="hoverI delete"></i> <span>删除图片</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bannerImg_emport">
+                        <form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                            +<input type="file" name="image"></form>
+                    </div>
+                </li>
+                <li id="banner_2">
+                    <div class="banner_title_box">
+                        <div class="banner_title_content">
+                            <span>广告2</span>
+                            <div class="banner_btn_box" status="0">
+                                <button class=" openBtn"> <i class="Ishow"></i>显示</button>
+                                <button class="cancalBtn"> <i class="Ihide"></i>隐藏</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bannerImg_box">
+                        <img class="banner_img" src="" alt="">
+                        <div class="bannerImg_hover">
+                            <ul>
+                                <li> <i class="hoverI replace"><form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="image"></form></i> <span>替换图片</span></li>
+                                <li><i class="hoverI delete"></i> <span>删除图片</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bannerImg_emport">
+                        <form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                            +<input type="file" name="image"></form>
+                    </div>
+                </li>
+                <li id="banner_3">
+                    <div class="banner_title_box">
+                        <div class="banner_title_content">
+                            <span>广告3</span>
+                            <div class="banner_btn_box" status="0">
+                                <button class=" openBtn"> <i class="Ishow"></i>显示</button>
+                                <button class="cancalBtn"> <i class="Ihide"></i>隐藏</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bannerImg_box">
+                        <img class="banner_img" src="" alt="">
+                        <div class="bannerImg_hover">
+                            <ul>
+                                <li> <i class="hoverI replace"><form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="image"></form></i> <span>替换图片</span></li>
+                                <li><i class="hoverI delete"></i> <span>删除图片</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bannerImg_emport">
+                        <form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                            +<input type="file" name="image"></form>
+                    </div>
+                </li>
+                <li id="banner_4">
+                    <div class="banner_title_box">
+                        <div class="banner_title_content">
+                            <span>广告4</span>
+                            <div class="banner_btn_box" status="0">
+                                <button class=" openBtn"> <i class="Ishow"></i>显示</button>
+                                <button class="cancalBtn"> <i class="Ihide"></i>隐藏</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bannerImg_box" >
+                        <img class="banner_img" src="" alt="">
+                        <div class="bannerImg_hover">
+                            <ul>
+                                <li> <i class="hoverI replace"><form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="image"></form></i> <span>替换图片</span></li>
+                                <li><i class="hoverI delete"></i> <span>删除图片</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bannerImg_emport">
+                        <form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                            +<input type="file" name="image"></form>
+                    </div>
+                </li>
+                <li id="banner_5">
+                    <div class="banner_title_box">
+                        <div class="banner_title_content">
+                            <span>广告5</span>
+                            <div class="banner_btn_box" status="0">
+                                <button class=" openBtn"> <i class="Ishow"></i>显示</button>
+                                <button class="cancalBtn"> <i class="Ihide"></i>隐藏</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bannerImg_box">
+                        <img class="banner_img" src="" alt="">
+                        <div class="bannerImg_hover">
+                            <ul>
+                                <li> <i class="hoverI replace"><form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="image"></form></i> <span>替换图片</span></li>
+                                <li><i class="hoverI delete"></i> <span>删除图片</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bannerImg_emport">
+                        <form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                            +<input type="file" name="image"></form>
+                    </div>
+                </li>
+                <li id="banner_6">
+                    <div class="banner_title_box">
+                        <div class="banner_title_content">
+                            <span>广告6</span>
+                            <div class="banner_btn_box" status="0">
+                                <button class=" openBtn"> <i class="Ishow"></i>显示</button>
+                                <button class="cancalBtn"> <i class="Ihide"></i>隐藏</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bannerImg_box" >
+                        <img class="banner_img" src="" alt="">
+                        <div class="bannerImg_hover">
+                            <ul>
+                                <li> <i class="hoverI replace"><form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="image"></form></i> <span>替换图片</span></li>
+                                <li><i class="hoverI delete"></i> <span>删除图片</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bannerImg_emport">
+                        <form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                            +<input type="file" name="image">
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            <h2 class="banner_h2 h2_2">广告轮播控制</h2>
+
+            <div class="banner_content">
+                <h3>请设置广告显示时间</h3>
+                <div class="content_control">
+                    <p class="stop_title">每页停留时间 <input type="number" value="8" min="1" max="120" id="stopTime">秒</p>
+                    <!--onkeydown="return false" onkeyup="return false" oncontextmenu="return false"-->
+                </div>
+            </div>
+        </div>
+        <div id="videoShow" style="display:none;">
+            <h3>请上传需要展示的广告视频</h3>
+            <div class="videoContent">
+                <form action="/admin/advertisement2/upload" method="post" enctype="multipart/form-data">
+                    <label for="video"><span class="videoInfo">请上传视频</span>
+                        <input type="file" id="video" name="image" accept="video/*" >
+                    </label>
+                    <button id="updataVideo">上传</button>
+                </form>
+                <video style="width:600px;height:400px;margin-left:40px;display:none;" src="" id="video0" controls="controls"></video>
+            </div>
+
+        </div>
+        <p class="p_budate"> <button id="update">保存更新</button></p>
+    </div>
+</div>
+<script>
+    $(function() {
+        //数据填充
+        var group_id=null,opt=null,video_url=null;
+        paddingDate();
+        function paddingDate() {
+            var id =   {$data['id']},data = {$data['img_info']},stop_time = {$data['stop_time']},group_list={$group_list},str2="";
+
+            $(".bannerImg_box, .bannerImg_emport").height($('.bannerImg_box').width()*0.5);
+            var marginTop =($(".banner_content ul li:nth-child(1)").height()-$(".banner_content ul li:nth-child(1) .banner_title_box").height()-$(".banner_content ul li:nth-child(1) .bannerImg_box").height())/2+"px";
+            $(".bannerImg_box, .bannerImg_emport").css({"margin-top":marginTop});
+            $("#peopleId").val(id);
+            var bannerStatus = null, bannerImgUrl = null;
+            $(".stop_title input").val(stop_time);
+
+            for(var n in group_list){
+                str2+='<option value=\''+group_list[n].id+'\'>'+group_list[n].group_name+'</option>';
+            }
+            $("#groove_fenpei").append(str2)
+            for (var p in data) {
+                $("#banner_" + data[p].id).find(".banner_btn_box").attr("status", data[p].status);
+                $("#banner_" + data[p].id).find(".banner_img").attr("src", data[p].url);
+                bannerStatus = $("#banner_" + data[p].id).find(".banner_btn_box").attr("status");
+                bannerImgUrl = $("#banner_" + data[p].id).find(".banner_img").attr("src");
+                if (bannerStatus == 1 && bannerImgUrl != "") {
+                    $("#banner_" + data[p].id).find(".banner_btn_box .openBtn").addClass("btnShow").next(".cancalBtn ").removeClass("btnShow");
+
+                    $("#banner_" + data[p].id).find(".bannerImg_emport").hide().prev(".bannerImg_box").show();
+                } else if (bannerStatus == 0 && bannerImgUrl == "") {
+                    $("#banner_" + data[p].id).find(".banner_btn_box .openBtn").removeClass("btnShow").siblings(".cancalBtn").addClass('btnShow');
+                    $("#banner_" + data[p].id).find(".bannerImg_emport").show().prev(".bannerImg_box").hide();
+                } else if (bannerStatus == 0 && bannerImgUrl != "") {
+                    $("#banner_" + data[p].id).find(".banner_btn_box .openBtn").removeClass("btnShow").siblings(".cancalBtn").addClass('btnShow');
+                    $("#banner_" + data[p].id).find(".bannerImg_emport").hide().prev(".bannerImg_box").show();
+                }
+            }
+        }
+        var flag=true;
+       $(".stop_title input").keyup(function(){
+           if(!($(this).val()>=1&&$(this).val()<=120)){
+               layer.msg("请输入1-120的数字");
+               $(this).val("");
+               flag=false;
+           }else{
+               flag=true;
+           }
+
+        })
+        //上传图片
+        $(".bannerImg_emport input").change(function(){
+            var that =this;
+            var imgType = $(this).val().substr($(this).val().lastIndexOf(".")+1,$(this).val().length).toLocaleLowerCase();
+            if(!(imgType === "jpg" || imgType === "png" || imgType === "jpeg" || imgType === "bmp")){
+                prompt("请上传jpg、jpeg、png、bmp格式的图片");
+                return;
+            }
+            $(this).parent().ajaxSubmit({
+                resetForm:false,
+                dataType:'json',
+                beforeSubmit:function () {
+                    load("正在上传");
+                },
+                success:function(result){
+                    layer.closeAll();
+                    if(result.status==1){
+                        $(that).parents(".bannerImg_emport").hide().prev(".bannerImg_box").show().find(".banner_img").attr("src",result.data);
+                    }else{
+                        prompt(result.info);
+                    }
+
+                },
+                error: function (data) {
+                    prompt(JSON.stringify(data));
+                    layer.closeAll();
+                }
+            })
+
+
+        })
+        //替换图片
+        $(".bannerImg_hover input").change(function(){
+            var that =this;
+            var imgType = $(this).val().substr($(this).val().lastIndexOf(".")+1,$(this).val().length).toLocaleLowerCase();
+            if(!(imgType === "jpg" || imgType === "png" || imgType === "jpeg" || imgType === "bmp")){
+                prompt("请上传jpg、jpeg、png、bmp格式的图片");
+                return;
+            }
+            $(this).parent().ajaxSubmit({
+                resetForm:false,
+                dataType:'json',
+                /* beforeSubmit:function () {
+                     layer.open({
+                         type: 2
+                         ,content: '正在上传',
+                         shadeClose: false
+                     });
+                 },*/
+                success:function(result){
+                    console.log(result);
+                    /* layer.closeAll();*/
+                    if(result.status==1){
+                        $(that).parents(".bannerImg_box").find(".banner_img").attr("src",result.data);
+                    }else{
+                        prompt(result.info);
+                    }
+
+                },
+                error: function (data) {
+                    prompt(JSON.stringify(data));
+                    layer.closeAll();
+                }
+            })
+        })
+
+        //删除图片
+        $(".bannerImg_hover .delete").click(function(){
+            var that =$(this);
+            layer.confirm("确定要删除这张图片吗？",{icon:2,title:"确定"},function(index){
+                that.parents(".bannerImg_box").find(".banner_img").attr("src","").parent().hide().next(".bannerImg_emport").show();
+                that.parents(".bannerImg_box").prev().find(".banner_btn_box").attr("status",0).find(".openBtn").removeClass("btnShow").next().addClass("btnShow");
+                layer.close(index);
+
+            })
+        })
+        //上传视频
+        $("#video").change(function(){
+            var objUrl = getObjectURL(this.files[0]) ;
+            console.log("objUrl = "+objUrl) ;
+            //$("#video0").val(objUrl);
+            $(this).parents("form").ajaxSubmit({
+                resetForm:false,
+                dataType:'json',
+                beforeSubmit:function () {
+                    load("正在上传");
+                },
+                success:function(result){
+                    layer.closeAll();
+                    if(result.status==1){
+                        video_url =result.data;
+                        if (objUrl) {
+                            $("#video0").attr("src", objUrl).show() ;
+                        }
+                        prompt("上传成功");
+                    }else{
+                        prompt(result.info);
+                    }
+
+                    //console.log(result)
+//                    if(result.status==1){
+//                        $(that).parents(".bannerImg_emport").hide().prev(".bannerImg_box").show().find(".banner_img").attr("src",result.data);
+//                    }else{
+//                        prompt(result.info);
+//                    }
+
+                },
+                error: function (data) {
+                    prompt(JSON.stringify(data));
+                    layer.closeAll();
+                }
+            })
+
+        }) ;
+        //建立一个可存取到该file的url
+        function getObjectURL(file) {
+            var url = null ;
+            if (window.createObjectURL!=undefined) { // basic
+                url = window.createObjectURL(file) ;
+            } else if (window.URL!=undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file) ;
+            } else if (window.webkitURL!=undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file) ;
+            }
+            return url ;
+        }
+        layui.use('form', function() {
+            var form = layui.form;
+            form.render('select');
+            //监控select变化groove2
+            form.on('select(groove2)', function(data){
+                opt =data.value
+                console.log(opt)
+                if(!group_id){
+                    layer.msg("请先选择要分配的烟机组")
+                    return;
+                }
+                if(data.value==1){
+                    $("#imgShow").show();
+                    $("#videoShow").hide();
+                }else if(data.value==2){
+                    $("#imgShow").hide();
+                    $("#videoShow").show();
+                    if(video_url){
+                        $("#video0").show();
+                    }
+                }
+            })
+            form.on('select(groove1)', function(data){
+                group_id=data.value;
+                $.ajax({
+                    type:'get',
+                    url:"/admin/Advertisement/get_group_banner",
+                    data:{group_id:data.value},
+                    success:function(res){
+                     var data = res.data;
+                        if(data){
+                            $("#stopTime").val(data.stop_time);
+                          var img_info = JSON.parse(data.img_info)
+                            if(data.video_url){
+                                video_url =data.video_url;
+                                $("#video0").attr("src",data.video_url);
+                            }
+                            for (var p in img_info) {
+                                $("#banner_" + img_info[p].id).find(".banner_btn_box").attr("status", img_info[p].status);
+                                $("#banner_" + img_info[p].id).find(".banner_img").attr("src", img_info[p].url);
+                                bannerStatus = $("#banner_" + img_info[p].id).find(".banner_btn_box").attr("status");
+                                bannerImgUrl = $("#banner_" + img_info[p].id).find(".banner_img").attr("src");
+                                if (bannerStatus == 1 && bannerImgUrl != "") {
+                                    $("#banner_" + img_info[p].id).find(".banner_btn_box .openBtn").addClass("btnShow").next(".cancalBtn ").removeClass("btnShow");
+                                    $("#banner_" + img_info[p].id).find(".bannerImg_emport").hide().prev(".bannerImg_box").show();
+                                } else if (bannerStatus == 0 && bannerImgUrl == "") {
+                                    $("#banner_" + img_info[p].id).find(".banner_btn_box .openBtn").removeClass("btnShow").siblings(".cancalBtn").addClass('btnShow');
+                                    $("#banner_" + img_info[p].id).find(".bannerImg_emport").show().prev(".bannerImg_box").hide();
+                                } else if (bannerStatus == 0 && bannerImgUrl != "") {
+                                    $("#banner_" + img_info[p].id).find(".banner_btn_box .openBtn").removeClass("btnShow").siblings(".cancalBtn").addClass('btnShow');
+                                    $("#banner_" + img_info[p].id).find(".bannerImg_emport").hide().prev(".bannerImg_box").show();
+                                }
+                            }
+                            if(data.opt==1){
+                                $("#groove_fenpei2").val("1");
+                                $("#imgShow").show();
+                                $("#videoShow").hide();
+                                form.render('select');
+                            }else if(data.opt==2){
+                                $("#groove_fenpei2").val("2");
+                                $("#imgShow").hide();
+                                $("#videoShow").show();
+                                form.render('select');
+                                if(data.video_url){
+                                    $("#video0").attr("src",data.video_url).show();
+                                }
+                            }
+
+                        }else{
+                            $("#stopTime").val(5);
+                                for(var i=1;i<=6;i++){
+                                    $("#banner_"+i).find(".banner_btn_box").attr("status",0);
+                                    $("#banner_"+i).find(".banner_img").attr("src","");
+                                    $("#banner_" + i).find(".banner_btn_box .openBtn").removeClass("btnShow").siblings(".cancalBtn").addClass('btnShow');
+                                    $("#banner_" + i).find(".bannerImg_emport").show().prev(".bannerImg_box").hide();
+                                }
+                        }
+                    },
+                    error:function(err){
+                        alert(JSON.stringify(err))
+                    }
+                })
+            });
+
+            //保存更改
+            $("#update").click(function () {
+                console.log(group_id,opt)
+                var img_info = [],data={};
+                for (var i = 0; i < 6; i++) {
+                    img_info[i] = {};
+                    img_info[i].id = i + 1;
+                    img_info[i].url = $("#banner_" + parseInt(i + 1) + " .banner_img").attr("src") || "";
+                    img_info[i].status = $("#banner_" + parseInt(i + 1) + " .banner_btn_box").attr("status") || "";
+                }
+                var stop_time = $(".stop_title input").val();
+                var id = $("#peopleId").val();
+                img_info = JSON.stringify(img_info);
+                if(opt==1){
+                    data= {"opt":1,"img_info": img_info, "stop_time": stop_time, "id": id,"group_id":group_id}
+                }else if(opt==2){
+                    data ={ "opt":2,"id": id ,"group_id":group_id ,"video_url":video_url}
+                }
+                if(!group_id){
+                    layer.msg("请先选择要配置广告的烟机组")
+                    return;
+                }
+                if (flag) {
+                    load("更新中");
+                    $.ajax({
+                        type: "post",
+                        data:data ,
+                        url: "/admin/advertisement2/editInfo",
+                        dataType: "json",
+                        success: function (respone) {
+                            layer.closeAll();
+                            prompt(respone.info);
+                        },
+                        error:function(error){
+                            alert(JSON.stringify(error))
+                        }
+                    })
+                } else {
+                    layer.msg("请输入广告停留时间");
+                    return;
+                }
+            })
+        })
+        //开关
+        //开
+        $(".banner_content_ul").on("click",".openBtn",function(){
+            var hasImg =$(this).parents(".banner_title_box").next(".bannerImg_box").find(".banner_img").attr("src");
+            if($(this).hasClass("btnShow")){
+                return;
+            }else if(hasImg==""||hasImg==undefined||hasImg==null){
+                prompt("请先上传图片再显示");
+                return;
+            }else{
+                $(this).addClass("btnShow").parent().attr("status",1);
+                $(this).next().removeClass("btnShow");
+            }
+        })
+        //关
+        $(".banner_content_ul").on("click",".cancalBtn",function(){
+            if($(this).hasClass("btnShow")){
+                return ;
+            }else{
+                $(this).addClass("btnShow").parent().attr("status",0);
+                $(this).prev().removeClass("btnShow");
+            }
+        })
+        //加载
+        function load(text){
+            layer.load(3,{
+                content:text,
+                shade:0.5,
+                shadeClose: false
+            });
+
+        }
+        //提示
+        function prompt(text,time){
+            layer.open({
+                title:"提示信息",
+                btnAlign:"c",
+                content:"<p style='text-align:center;font-size:18px;'>"+text+"</p>",
+                time:time||6000,
+                shade:0.6
+
+            })
+
+
+        }
+
+    })
+</script>

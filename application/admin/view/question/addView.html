@@ -1,0 +1,817 @@
+<!--<link rel="stylesheet" href="/plugin/bootstrap/css/bootstrap.min.css">-->
+<!--<link rel="stylesheet" href="/plugin/jqueryDateTimePicket/jquery.datetimepicker.css">-->
+<!--<script src="/plugin/jqueryDateTimePicket/jquery.datetimepicker.full.js"></script>-->
+<style>
+    .question_h2{
+        color: #333;
+        background-color: #f5f5f5;
+        border:1px solid #ddd;
+        font-size:14px;
+        padding-left:30px;
+        padding-bottom: 0;
+        padding-top: 0;
+        line-height: 40px;
+        height: 40px;
+        margin-bottom:0;
+    }
+    h5{
+        font-weight:300;
+        line-height: 20px;
+        color: inherit;
+        text-rendering: optimizelegibility;
+    }
+    .container-fluid{
+     padding-left:20px;
+        padding-right:20px;
+    }
+    .question_box{
+        width:100%;
+        height:100%;
+        border:1px solid #ddd;
+        border-top:none;
+        background:#fff;
+    }
+    .box-content{
+        margin-top: 20px;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+    #tab_1_2 {
+        border: solid 1px #ddd;
+        margin-bottom:20px;
+    }
+    form {
+        margin: 0;
+        padding-top: 20px;
+
+    }
+    .form-horizontal .control-group {
+        margin-bottom: 20px;
+    }
+    .control-group:before{
+        display: table;
+        line-height: 0;
+        content: "";
+    }
+    .form-horizontal .control-label {
+        float: left;
+        width: 160px;
+        padding-top: 5px;
+        text-align: right;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 20px;
+    }
+    .form-horizontal .controls {
+        margin-left: 180px;
+    }
+    select.m-wrap.medium {
+        cursor:pointer;
+        width: 220px !important;
+        background-color: #ffffff;
+        background-image: none !important;
+        filter: none !important;
+        border: 1px solid #e5e5e5;
+        outline: none;
+        height: 34px !important;
+        line-height: 30px;
+    }
+    .form-horizontal .controls {
+        margin-left: 180px;
+    }
+    .m-wrap.medium {
+        width: 206px !important;
+        border: 1px solid #e5e5e5;
+    }
+    .count {
+       border: solid 1px #e5e5e5;
+
+        padding: 8px;
+        margin:0;
+        line-height: 20px;
+        height: 18px;
+        background-color: #e5e5e5;
+    }
+    hr{
+        margin: 20px 0;
+        border: 0;
+        border-top: 1px solid #E0DFDF;
+        border-bottom: 1px solid #FEFEFE;
+    }
+    .controls input:nth-child(1) {
+        float: left;
+    }
+    input[type="text"].m-wrap{
+        box-sizing: content-box;
+        -webkit-appearance: none !important;
+        color: #333333;
+        outline: 0;
+        height: 20px;
+        padding: 6px 6px !important;
+        line-height: 20px;
+        font-size: 14px;
+        font-weight: normal;
+        vertical-align: top;
+        background-image: none !important;
+        filter: none !important;
+        -webkit-box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        box-shadow: none !important;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        border-radius: 0px;
+        background: transparent;
+    }
+    input.m-wrap {
+        border: 1px solid #e5e5e5;
+    }
+    .question {
+        width: 352px;
+    }
+    input[type="checkbox"] {
+        margin: 10px 4px;
+        cursor:pointer;
+    }
+    .controls>span {
+        line-height: 34px;
+    }
+    .delete_all {
+        margin-left: 10px;
+    }
+    .qslist {
+        clear: both;
+        margin: 10px 0px;
+        overflow: hidden;
+    }
+    .qslist >.control-label {
+        width: auto;
+    }
+    .form-horizontal .control-label {
+        float: left;
+        width: 160px;
+        padding-top: 5px;
+        text-align: right;
+    }
+    .line_az {
+        width: 8px;
+        display: inline-block;
+        margin-right: 2px;
+    }
+    .qslist input {
+        float: left;
+        width: 300px;
+    }
+    .qslist >span {
+        line-height: 20px;
+        float: left;
+        border-width: 0px;
+        box-sizing: content-box;
+    }
+    .qslist >.control-label {
+        width: auto;
+    }
+    .qslist .delete_item {
+        float: left !important;
+        margin-left: 5px;
+    }
+    .qslist .icon-trash {
+        padding-top: 5px;
+        font-size: 20px;
+    }
+    [class^="icon-"], [class*=" icon-"] {
+        cursor:pointer;
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin-top: 1px;
+        line-height: 14px;
+        vertical-align: text-top;
+        background-image: url("/static/image/admin/glyphicons-halflings.png");
+        background-repeat: no-repeat;
+    }
+    .icon-trash {
+        background-position: -456px 0;
+    }
+    .btn.green:hover{
+        background-color: #1d943b !important;
+        color: #fff !important;
+    }
+    .controls .btn {
+        clear: both;
+    }
+    .btn.green {
+        color: white;
+        text-shadow: none;
+        background-color: #35aa47;
+    }
+    .newitem {
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    .form-horizontal .form-actions {
+        padding-left: 180px;
+    }
+    .form-actions {
+        clear: both;
+    }
+    .btn.blue {
+        color: white;
+        text-shadow: none;
+        background-color: #4d90fe;
+    }
+    .form-actions {
+        padding: 19px 20px 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border-top: 1px solid #e5e5e5;
+    }
+    .icon-ok {
+        background-position: -288px 0;
+    }
+    .btn.blue:hover{
+        background-color: #0362fd !important;
+        color: #fff !important;
+    }
+    body .layui-layer-content{
+        text-align:center;
+    }
+</style>
+<div class="content_box clearfix">
+    <h2 class="question_h2">添加问卷</h2>
+    <div class="question_box clearfix">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="tabbable tabbable-custom tabbable-full-width">
+                    <div id="tab-content">
+                        <div id="tab_1_2" class="tab-pane active">
+                            <h5 style="margin:10px 0 0 105px;">温馨提示：问卷调查内容全部为必填项！</h5>
+                            <form novalidate="novalidate" action="#" class="form-horizontal" id="user_form" method="post">
+                                <input type="text" name="id" class="id hide">
+
+                                <div class="control-group">
+                                    <label class="control-label">活动选择</label>
+                                    <div class="controls">
+                                        <select id="actList" class="m-wrap medium">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control-group good_list">
+                                    <label class="control-label">选择产品</label>
+                                    <div class="controls">
+                                        <select id="good_list" class="m-wrap medium">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">问卷标题</label>
+
+                                    <div class="controls">
+                                        <input type="text" placeholder="请输入标题" class="m-wrap medium questionnaire_name" onkeyup="limitWord($(this),50)" name="questionnaire_name" value="" id="questionnaire_name">
+                                        <span class="count">0/50</span>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label">开始时间</label>
+
+                                    <div class="controls clearfix">
+                                        <input type="text" placeholder="" id="datetimepicker7" class="m-wrap medium begin_time" name="begin_time" value="" >
+
+                                    </div>
+                                </div>
+                                <div class="control-group clearfix">
+                                    <label class="control-label">结束时间</label>
+
+                                    <div class="controls">
+                                        <input type="text" placeholder="" id="datetimepicker8" class="m-wrap medium end_time" name="end_time" value="">
+
+                                    </div>
+                                </div>
+
+                                <div class="question_list">
+                                    <div class="control-group">
+                                        <hr>
+                                        <label class="control-label">问题 <span class="line-num">1</span>：</label>
+
+                                        <div class="controls">
+                                            <input type="text" class="m-wrap question" value="" name="" onkeyup="limitWord($(this),800)" placeholder="请填写问题题目">
+                                            <span class="count">0/80</span>
+                                            <input type="checkbox">
+                                            <span>允许多选 <a class="delete_all" href="javascript:" onclick="delQus($(this))">删除</a></span>
+
+                                            <div class="qslist">
+                                                <label class="control-label"><b class="line_az">A</b>选项： </label>
+                                                <input type="text" placeholder="" onkeyup="limitWord($(this),100)" class="m-wrap" value="">
+                                                <span class="count">0/100</span>
+
+                                            </div>
+                                            <div class="qslist">
+                                                <label class="control-label"><b class="line_az">B</b>选项： </label>
+                                                <input type="text" placeholder="" onkeyup="limitWord($(this),100)" class="m-wrap" value="">
+                                                <span class="count">0/100</span>
+
+                                            </div>
+                                            <div class="btn green clearFloat new_xx" onclick="addSel($(this))">再添加一个选项</div>
+                                        </div>
+
+                                    </div>
+
+                                    <!--<div class="control-group">
+                                        <hr>
+                                        <label class="control-label">问题 <span class="line-num">2</span>：</label>
+
+                                        <div class="controls">
+                                            <input type="text" class="m-wrap question" value="" onkeyup="limitWord($(this),80)" name="" placeholder="请填写问题题目">
+                                            <span class="count">0/80</span>
+                                            <span><a class="delete_all" href="javascript:" onclick="delQus($(this))">删除</a></span>
+                                        </div>
+
+                                    </div><div class="control-group js_area">
+                                    <hr>
+                                    <label class="control-label">地区问题 <span class="line-num">3</span>：</label>
+                                    <div class="controls">
+                                        <input type="text" class="m-wrap question" value="" onkeyup="limitWord($(this),80)" name="" placeholder="请填写地区问题题目">
+                                        <span class="count">0/80</span>
+                                        <span><a class="delete_all" href="javascript:" onclick="delQus($(this))">删除</a></span>
+                                    </div>
+                                </div>--></div>
+                                <div id="question_item" style=" display: none">
+                                    <div class="control-group">
+                                        <hr>
+                                        <label class="control-label">问题 <span class="line-num">2</span>：</label>
+
+                                        <div class="controls">
+                                            <input type="text" class="m-wrap question" value=""  onkeyup="limitWord($(this),80)" placeholder="请填写问题题目">
+                                            <span class="count">0/80</span>
+                                            <input type="checkbox">
+                                            <span>允许多选 <a class="delete_all" href="javascript:" onclick="delQus($(this))">删除</a></span>
+
+                                            <div class="qslist">
+                                                <label class="control-label"><b class="line_az">A</b>选项： </label>
+                                                <input type="text" placeholder="" onkeyup="limitWord($(this),100)" class="m-wrap" value="">
+                                                <span class="count">0/100</span>
+
+                                            </div>
+                                            <div class="qslist">
+                                                <label class="control-label"><b class="line_az">B</b>选项： </label>
+                                                <input type="text" placeholder="" onkeyup="limitWord($(this),100)" class="m-wrap" value="">
+                                                <span class="count">0/100</span>
+
+                                            </div>
+                                            <div class="btn green clearFloat new_xx" onclick="addSel($(this))">再添加一个选项</div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+                                        <hr>
+                                        <label class="control-label">问题 <span class="line-num">3</span>：</label>
+
+                                        <div class="controls">
+                                            <input type="text" class="m-wrap question"  onkeyup="limitWord($(this),80)"  placeholder="请填写问题题目">
+                                            <span class="count">0/80</span>
+                                            <span><a class="delete_all" href="javascript:void(0)" onclick="delQus($(this))">删除</a></span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group js_area">
+                                        <hr>
+                                        <label class="control-label">地区问题 <span class="line-num">4</span>：</label>
+
+                                        <div class="controls">
+                                            <input type="text" class="m-wrap question" value="" onkeyup="limitWord($(this),80)" name="" placeholder="请填写地区问题题目">
+                                            <span class="count">0/80</span>
+                                            <span><a class="delete_all" href="javascript:" onclick="delQus($(this))">删除</a></span>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="control-group">
+                                        <hr>
+                                        <label class="control-label">问题 <span class="line-num">5</span>：</label>
+
+                                        <div class="controls">
+                                            <input type="text" class="m-wrap question" value="" onkeyup="limitWord($(this),80)" name="" placeholder="请填写问题题目">
+                                            <span class="count">0/80</span>
+                                            <input type="checkbox">
+                                            <span>允许多选 <a class="delete_all" href="javascript:void(0)" onclick="delQus($(this))">删除</a></span>
+
+
+                                            <div class="btn green clearFloat new_xx">再添加一个选项</div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="qslist">
+                                        <label class="control-label"><span class="line_az"></span>选项： </label>
+                                        <input type="text" placeholder="" onkeyup="limitWord($(this),100)" class="m-wrap" value="">
+                                        <span class="count">0/100</span>
+                                        <label class="control-label delete_item" onclick="delSel($(this))"><i class="icon-trash"></i></label>
+                                    </div>
+
+                                </div>
+                                <hr>
+                                <div class="btn green pull-left newitem" id="new_question">再添加一题</div>
+                                <div class="btn green pull-left newitem" id="new_text">再添加文本</div>
+                                <div class="btn green pull-left newitem" id="new_area">添加一个地区问题</div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn blue" id="save"><i class="icon-ok"></i> 保存</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function() {
+        var id = getQueryString("id"),good_list ={$good_list},
+        title = '{$title}', begin_time = '{$begin_time}', end_time = '{$end_time}', action_id = '{$action_id}',
+            question = {$question}, action_list = {$action_list};
+        // $(".xdsoft_datetimepicker.xdsoft_noselect.xdsoft_").remove();
+        $.datetimepicker.setLocale('ch');
+        $('#datetimepicker7').datetimepicker();
+        $('#datetimepicker8').datetimepicker();
+        var str = "";
+        for (var p in action_list) {
+            str += '<option value="' + action_list[p].id + '">' + action_list[p].name + '</option>';
+        }
+        $("#actList").append(str);
+        defaultData();
+        function defaultData(){
+            var str =""
+            for(var p in good_list){
+                str+= '<option value=\''+good_list[p].id+'\'>'+good_list[p].name+'</option>';
+            }
+            $("#good_list").append(str);
+        }
+
+        if (id != null && id != undefined && id != "") {
+            $("#actList").val(action_id);
+            $("#questionnaire_name").val(title).next().html($("#questionnaire_name").val().length + "/50");
+            $("#datetimepicker7").val(begin_time);
+            $("#datetimepicker8").val(begin_time);
+            $(".question_list").html("");
+            $.each(question, function (index, item) {
+                var list_item = $("#question_item>div").eq(3).clone(true);
+                /*if (item.type == "1") {
+
+
+                }*/  if (item.type == "2") {
+                    list_item.find("input[type='checkbox']").attr("checked", true);
+                } else if (item.type == "3") {
+                    list_item = $("#question_item>div").eq(1).clone(true);
+                }else if (item.type =="4"){
+                    list_item = $("#question_item>div").eq(2).clone(true);
+                }
+                if (item.type != "3" && item.type != "4") {
+                    $.each(JSON.parse(item.option), function (indexs, itemsss) {
+                        var qlis = $("#question_item>div").eq(4).clone();
+                        qlis.find("input").val(itemsss.title);
+                        qlis.find("input").next().html(qlis.find("input").val().length+"/100");
+                        list_item.find(".new_xx").before(qlis);
+                    })
+                }
+
+
+                list_item.find(".question").val(item.title).attr("id",item.id);//题目标题
+
+                list_item.find(".question").next().html(list_item.find(".question").val().length+"/80");
+
+                $(".question_list").append(list_item);
+            });
+
+            line_num();
+            line_az();
+
+        }
+
+        //问卷标题
+        $("#questionnaire_name").bind('input propertychange', function () {
+            if (trim($(this).val()).length > 50) {
+                $(this).val(trim($(this).val()).substring(0, 50));
+            }
+            $(this).next().html(trim($(this).val()).length + "/50");
+        });
+        //问卷题目
+        $(".question_list .controls > input[type='text'] ").on('change', function () {
+            if (trim($(this).val()).length > 80) {
+                $(this).val(trim($(this).val()).substring(0, 80));
+            }
+            $(this).next().html(trim($(this).val()).length + "/80");
+        });
+        //问卷选项
+        $(".question_list .controls .qslist input[type='text'] ").on('change', function () {
+            if (trim($(this).val()).length > 100) {
+                $(this).val(trim($(this).val()).substring(0, 100));
+            }
+            $(this).next().html(trim($(this).val()).length + "/100");
+        });
+        //添加题目
+        $("#new_question").click(function () {
+
+            $(".question_list").append($("#question_item>div").eq(0).clone());
+
+            line_num();
+            line_az();
+
+        });
+        $("#new_text").click(function () {
+            $(".question_list").append($("#question_item>div").eq(1).clone());
+
+            line_num();
+            line_az();
+        });
+
+        $("#new_area").click(function () {
+            $(".question_list").append($("#question_item>div").eq(2).clone());
+            line_num();
+            line_az();
+        });
+
+
+        /* line_num();
+        line_az();*/
+        //保存
+        //保存
+        $("#save").click(function () {
+            if (check()) {
+                var data = {};
+                if (id != null && id != undefined && id != "") {
+                    data.id=id;
+                }
+                data.title = trim($("#questionnaire_name").val());//问卷标题
+                data.begin_time = $("#datetimepicker7").val();//开始时间
+                data.end_time = $("#datetimepicker8").val();//结束时间
+                data.action_id =$("#actList").val();
+                data.good_id =$("#good_list").val();
+               /* data.id = $(".id").val();*/
+                var question = [];
+                $.each($(".question_list .control-group"), function (index, item) {
+                    //加载题目列表
+                    var items = {};
+                    if (id != null && id != undefined && id != "") {
+                        items.id=$(item).find(".question").attr("id");
+                    }
+                    if ($(item).find(".qslist").length > 0) {
+                        //选择题
+                        if ($(item).find("input[type='checkbox']").is(':checked') == true) {
+                            items.type = 2
+                        } else {
+                            items.type = 1
+                        }
+                        //加载选项
+                        var option =[];
+                        //var option = [];
+                        var optionObj;
+                        $.each($(item).find(".qslist"), function (indexs, itemss) {
+                            optionObj ={};
+                            optionObj.id=indexs+1;
+                            optionObj.title=trim($(itemss).find("input").val());
+                            //option.push($(itemss).find("input").val());
+                            option.push(optionObj);
+                        })
+
+                        items.option = option;
+
+                    } else {
+                        //非选择题
+                        if ($(item).hasClass("js_area")) {
+
+                            items.type = 4;
+                        } else {
+                            items.type = 3;
+                        }
+                    }
+
+                    items.title = trim($(item).find(".question").val());
+
+                    question.push(items);
+                })
+                data.question = JSON.stringify(question);
+                if (id != null && id != undefined && id != "") {
+                    $.ajax({
+                        type:"post",
+                        url:"/admin/question/edit",
+                        data:data,
+                        success:function(msg){
+                            if(msg.status==1){
+                               layer.open({
+                                   content:msg.info,
+                                   closeBtn:0,
+                                   title:false,
+                                   btn:"确认",
+                                   time:5000,
+                                   btnAlign:"c",
+                                   shade:0.6,
+                                   end:function(){
+                                       $.f.localLoad("admin/question/index");
+                                   }
+                               })
+
+                            }else{
+                                layer.open({
+                                    content:msg.info,
+                                    closeBtn:0,
+                                    title:false,
+                                    btn:"确认",
+                                    btnAlign:"c",
+                                    time:5000,
+                                    shade:0.6
+                                })
+                            }
+                        }
+                    })
+                }else{
+                    console.log(data)
+                $.ajax({
+                    type: 'POST',
+                    url: "/admin/question/add",
+                    data: data,
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.status == 1) {
+                            layer.open({
+                                content:msg.info,
+                                closeBtn:0,
+                                title:false,
+                                btn:"确认",
+                                time:5000,
+                                btnAlign:"c",
+                                shade:0.6,
+                                end:function(){
+                                    $.f.localLoad("admin/question/index");
+                                }
+                            })
+                        } else {
+                            layer.open({
+                                content:msg.info,
+                                closeBtn:0,
+                                title:false,
+                                btn:"确认",
+                                time:5000,
+                                btnAlign:"c",
+                                shade:0.6
+                            })
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //errormsg(XMLHttpRequest, textStatus, errorThrown);
+                    }
+                });
+                }
+
+            }
+        })
+
+    })
+    //去掉首尾空格
+    function trim(value){
+        return value.replace(/^\s+/, "").replace(/\s+$/, "");
+    }
+    //获取url参数
+    function getQueryString(name) {
+        var after = window.location.hash.split("?")[1];
+            if(after)
+                {
+                    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                    var r = after.match(reg);
+                    if(r != null)
+                        {
+                             return  decodeURIComponent(r[2]);
+                         }
+                    else
+                    {
+                             return null;
+                        }
+                 }
+    }
+    var az = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    //删除选项
+    function delSel(e){
+        e.parents(".qslist").remove();
+        line_az();
+    }
+    function limitWord(e,limited){
+
+        if (trim(e.val()).length > limited) {
+            e.val(trim(e.val()).substring(0, limited)) ;
+        }
+        e.parent().find(".count").text(trim(e.val()).length+"/"+limited);
+    }
+    //初始化问题数列
+    function line_num() {
+        $.each($(".line-num"), function (index, item) {
+            $(".line-num").eq(index).html(index + 1);
+        })
+    }
+    //删除问题
+    function delQus(e){
+        e.parents(".control-group").remove();
+
+        //初始化问题数列
+        line_num();
+    }
+
+    //初始化ABC
+    function line_az() {
+        $.each($(".controls"), function (index, item) {
+
+            $.each($(".controls").eq(index).find(".line_az"), function (index2, items) {
+                $(items).html(az[index2]);
+            });
+
+        });
+        //hide_del();
+    }
+    //添加选项
+    function addSel(e){
+//    if (e.parents(".controls").find(".qslist").length == 10) {
+//        alert("选项不能大于10项");
+//        return;
+//    }
+        e.before("<div class='qslist'><label class = 'control-label' ><b class = 'line_az' ></b>选项：</label><input type = 'text'placeholder = ''class = 'm-wrap' onkeyup='limitWord($(this),100)' / ><span class='count'>0/100</span><label class = 'control-label delete_item' onclick='delSel($(this))' ><i class = 'icon-trash' ></i></span ></label></div > ");
+        line_az();
+    }
+    //验证输入
+    function check() {
+        var chec = true;
+
+
+        var startTime = $("#datetimepicker7").val();
+        var start = new Date(startTime.replace("-", "/").replace("-", "/"));
+        var endTime = $("#datetimepicker8").val();
+        var end = new Date(endTime.replace("-", "/").replace("-", "/"));
+        /*if($("#actList").val()==""){
+            alert("活动不能为空");
+            return false;
+        }else */if (trim($("#questionnaire_name").val()) == "") {
+            layer.msg("问卷标题不能为空");
+            return false;
+        } else if (trim($("#datetimepicker7").val()) == "") {
+            layer.msg("开始时间不能为空");
+            return false;
+        } else if (trim($("#datetimepicker8").val()) == "") {
+            layer.msg("结束时间不能为空");
+            return false;
+        } else if (end < start) {
+            layer.msg("结束日期不能小于开始日期");
+            return false;
+        } else if ($(".question_list .control-group").length == 0) {
+            layer.msg("请添加题目");
+            return false;
+        }
+
+
+        $.each($(".question_list .control-group"), function (index, item) {
+
+            var qindex = $(item).find(".question").parents(".control-group").find(".line-num").html();
+            if (trim($(item).find(".question").val()) == "") {
+                layer.msg("问题" + qindex + "题目不能为空");
+                chec = false;
+                return false;
+            }
+            //else if ($(item).find(".question").val().replace(/[^\x00-\xff]/g, "aa").length > 50) {
+            //	alertmsg("问题" + qindex + "题目输入字节长度不能超过50个字节，一个汉子等于2个字节、1个字母或数字等于1个字节。", "error");
+            //	chec = false;
+            //
+            //	return false;
+            //
+            //}
+            else {
+
+                $.each($(item).find(".qslist"), function (index1, item1) {
+                    if (trim($(item1).find("input").val()) == "") {
+                        layer.msg("问题" + qindex + "选项" + az[index1] + "不能为空");
+                        chec = false;
+                        return false;
+
+                    }
+                    //else if ($(item1).find("input").val().replace(/[^\x00-\xff]/g, "aa").length > 100) {
+                    //	alertmsg("问题" + qindex + "选项" + az[index1] + "输入字节长度不能超过100个字节，一个汉子等于2个字节、1个字母或数字等于1个字节。", "error");
+                    //	chec = false;
+                    //	return false;
+                    //
+                    //}
+
+                })
+
+            }
+
+
+        });
+        return chec;
+
+    }
+</script>

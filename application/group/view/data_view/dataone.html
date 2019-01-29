@@ -1,0 +1,362 @@
+<link rel="stylesheet" href="/plugin/jqueryDate/css/datepicker.css" />
+<script src="/plugin/Echarts/echarts.common.min.js"></script>
+<script src="/plugin/jqueryDate/js/moment.min.js"></script>
+<script src="/plugin/jqueryDate/js/datepicker.all.js"></script>
+<style>
+    .h2_2{
+        height: 60px;
+        line-height: 60px;
+        font-size: 24px;
+        margin: 0;
+        padding-left: 20px;
+        border-bottom: 4px solid #418BB8;
+    }
+    .statistics_box{
+        width:100%;
+        background-color: #fff;
+        padding-bottom: 30px;
+        min-height:600px;
+    }
+    .statistics_top{
+        padding:10px 20px;
+        line-height:38px;
+    }
+    .iconfont{
+        font-size:30px;
+    }
+    #dataShow{
+        box-sizing: border-box;
+        height:38px;
+        padding:5px;
+        color: white;
+        text-shadow: none;
+        background-color: #d84a38;
+        border:none;
+    }
+    .layerDate{
+        position:relative;
+        top:2px;
+        box-sizing: border-box;
+        height:38px;
+        padding:5px 5px 5px 35px;
+        background:url("/static/image/admin/date.png") no-repeat 0px 0px;
+        background-size:35px 35px;
+        border:1px solid #bbb;
+        cursor:pointer;
+        font-size:18px;
+    }
+    .statistics_smokeTime,.statistics_position{
+        margin:10px 20px;
+        width:calc(100%-40px);
+        min-height:450px;
+        border:2px solid #418BB8;
+    }
+    .statistics_smokeTime h3,.statistics_position h3{
+        display: block;
+        padding:10px;
+        font-size: 18px;
+        line-height: 18px;
+        font-weight: 400;
+        background-color: #35aa47;
+        color:#fff;
+    }
+    #statistics_1{
+        width:100%;
+        height:400px;
+    }
+    .layui-form-label{
+        width:110px;
+    }
+    #container{
+        width:100%;
+        height:500px;
+    }
+    .c-datepicker-date-editor{
+        height:38px;
+    }
+    .c-datepicker-picker [slot=sidebar], .c-datepicker-picker__sidebar{
+        width:0;
+    }
+    .c-datepicker-picker [slot=sidebar]+.c-datepicker-picker__body, .c-datepicker-picker__sidebar+.c-datepicker-picker__body{
+        margin:0;
+    }
+    .dd-table th, td{
+        border:none;
+    }
+    .c-datepicker-date-table th{
+        text-align:center;
+    }
+</style>
+<div class="statistics_box">
+    <h2 class="statistics_h2 h2_2">统计总览2</h2>
+    <div class="statistics_top">
+        <form class="statistics_topRight layui-form">
+            <div class="layui-inline">
+                <label class="layui-form-label">选择时间</label>
+                <div class="layui-input-inline">
+                    <div class="c-datepicker-date-editor c-datepicker-single-editor J-datepicker-day mt10">
+                    <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+                    <input type="text" autocomplete="off" name="" placeholder="选择日期" class=" c-datepicker-data-input only-date" value="">
+                </div>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">选择分组</label>
+                <div class="layui-input-inline">
+                    <select name="modules" lay-verify="required" lay-search="" id="grouping" lay-filter="filter">
+                        <option value="0">全部</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="statistics_content">
+        <div class="statistics_smokeTime">
+            <h3>领烟时间分布</h3>
+            <div id="statistics_1"></div>
+        </div>
+        <div class="statistics_position">
+            <h3>出烟机地理分布</h3>
+            <div id="container" ></div>
+        </div>
+    </div>
+</div>
+<script>
+
+    //经销商地图显示
+    function queryAllRetailer() {
+        //获取零售户信息
+        $.ajax({
+            type:"post",
+            url:"/group/DataView/shop_coordinate",
+            cache:false,
+            async: false,
+            dataType:"json",
+            success:function(jsons){
+                if (jsons.info) {
+                    createMarker(jsons.info);
+                }
+            }
+        });
+    }
+    var map,marker = null;
+    //根据获取到的经纬度生成标签
+    function createMarker(jsons){
+        var center = new qq.maps.LatLng(23.125742,113.24959);
+        var map = new qq.maps.Map(document.getElementById("container"),{
+            center : center,
+            zoom : 15,
+            mapTypeControlOptions : {
+                //设置控件的地图类型ID，ROADMAP显示普通街道地图，SATELLITE显示卫星图像，HYBRID显示卫星图像上的主要街道透明层
+                mapTypeIds : []
+            },
+            zoomControl:false,
+            panControl : false,
+            scaleControl : false
+        });
+        //获取城市列表接口设置中心点
+//	var iplat ,iplng = null;
+//    citylocation = new qq.maps.CityService({
+//        complete : function(result){
+//            map.setCenter(result.detail.latLng);
+//        }
+//    });
+        //调用searchLocalCity();方法    根据用户IP查询城市信息。
+//    citylocation.searchLocalCity();
+
+        var info = new qq.maps.InfoWindow({
+            map : map
+        });
+        qq.maps.event.addListener(map, 'click', function() {
+            info.close();
+        });
+        var anchor = new qq.maps.Point(13, 25),
+                size = new qq.maps.Size(25, 25),
+                origin = new qq.maps.Point(0, 0),
+                scaleSize = new qq.maps.Size(25, 25),
+                icon = new qq.maps.MarkerImage(
+                        "/static/image/admin/sxmarker.png",
+                        size,
+                        origin,
+                        anchor,
+                        scaleSize
+                );
+        var markers = new qq.maps.MVCArray();
+        var markerCluster;
+        for(var j=0;j<jsons.length;j++){
+            (function(n){
+                var latlon = new qq.maps.LatLng(jsons[n].latitude, jsons[n].longitude);
+                var marker = new qq.maps.Marker({
+                    position : latlon,
+                    map : map
+                });
+                var	json = jsons[n];
+//                var brandIds = json.group_id;
+//                var brandId;
+//                if(brandIds){
+//                    brandId = brandIds.split(",");
+//                }
+//                if(json.sxActivityId!=''&&json.sxActivityId!=null){
+//                    var icon1 = new qq.maps.MarkerImage(
+//                            "/Uploads/Retailer/Original/"+json.icoimg,
+//                            size,
+//                            origin,
+//                            anchor,
+//                            scaleSize
+//                    );
+//                    marker.setIcon(icon1);
+//                }else{
+                    marker.setIcon(icon);
+//                }
+                markers.push(marker);
+                var listener = qq.maps.event.addListener(marker,'click',function() {
+                    var con = '<div style="width:250px;height:70px;">'+
+                            '<div class="map_add" >'+
+                            '<div class="user_pic" style="width:100px;height:100px;float:left;"><img style="width:100px;height:100px;"src="https://gdzy.zonma.net/Uploads/Retailer/Original/20170920/59c28229a6b9b.jpg"/></div>'+
+                            '<dl style="width:140px;float：left;display:inline-block;margin-left:8px;"'+
+                            '<dt>'+json.shop_name+'</dt>'+
+                            '<dd class="tel_num">'+json.duty_name+'</dd>'+
+                            '<dd class="add_txt">'+json.city+json.district+json.address+'</dd>'+
+                            '</dl>'+
+                            '</div>';
+                    info.open();
+                    info.setContent(con);
+                    info.setPosition(latlon);
+                });
+            })(j);
+        }
+        //点聚合
+        markerClusterer = new qq.maps.MarkerCluster({
+            map:map,
+            minimumClusterSize:3, //默认2
+            markers:markers,
+            zoomOnClick:true, //默认为true
+            gridSize:30, //默认60
+            averageCenter:true, //默认false
+            maxZoom:18 //默认18
+        });
+    }
+//    window.onload =;
+    $(function(){
+        queryAllRetailer()
+        var group_list={$group_list},group_id=null,date=null;
+        layui.use(['laydate','form','table'], function(){
+            var laydate = layui.laydate,form =layui.form,table=layui.table,str=""; for(var i in group_list){
+                str+='<option value="'+group_list[i].group_id+'">'+group_list[i].group_name+'</option>'
+            }
+            $("#grouping").append(str)
+            form.render()
+            //执行一个laydate实例
+            $(".only-date").attr("placeholder",getAfterFormatDate(-1))
+            $('.J-datepicker-day').datePicker({
+                hasShortcut: true,
+                format:'YYYY-MM-DD',
+                max: getAfterFormatDate(0),
+                hide:function(){
+                    date =$(".only-date").val();
+                    var data={
+                        group_id :group_id,
+                        day:date
+                    }
+                    echarBar("statistics_1",data)
+                }
+            });
+//            laydate.render({
+//                elem: '#layDate', //指定元素
+//                max:0,
+//                done:function(value,data,endDate){
+//                    date=value;
+//                    var data={
+//                        group_id :group_id,
+//                        day:date
+//                    }
+//                    echarBar("statistics_1",data)
+//                }
+//            });
+            form.on('select(filter)', function(data){
+                group_id =data.value
+                var data={
+                    group_id :data.value,
+                    day:date
+                }
+                echarBar("statistics_1",data)
+            });
+            echarBar("statistics_1")
+            //柱状图统计
+            function echarBar(id,data){
+                if(!data){
+                    data={
+                        day:getAfterFormatDate(-1),
+                        group_id:group_id||0
+                    }
+                }
+                var myChart = echarts.init(document.getElementById(id));
+                $.ajax({
+                    type:"get",
+                    url:"/group/DataView/smoke_hour_data",
+                    data:data,
+                    success:function(res){
+                        // 指定图表的配置项和数据
+                        myChart.hideLoading();
+                        var option = {
+                            color: ['#3398DB'],
+                            tooltip : {
+                                trigger: 'axis',
+                                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                }
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '4%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+                            xAxis : [
+                                {
+                                    type : 'category',
+                                    data : res.info.time,
+                                    axisTick: {
+                                        alignWithLabel: true
+                                    }
+                                }
+                            ],
+                            yAxis : [
+                                {
+                                    type : 'value'
+                                }
+                            ],
+                            series : [
+                                {
+                                    name:'领烟次数',
+                                    type:'bar',
+                                    barWidth: '60%',
+                                    data:res.info.number
+                                }
+                            ]
+                        };
+
+                        // 使用刚指定的配置项和数据显示图表。
+                        myChart.setOption(option);
+
+                    },
+                    error:function(err){
+                        alert(JSON.stringify(err))
+                    }
+                })
+            }
+        })
+        //获取前几天的时间段
+        function getAfterFormatDate (days) { // 如果需要计算当前的日期 传 0 即可 (此例是考虑时分秒的情况)
+            let dd = new Date()
+            dd.setDate(dd.getDate() + days) // 获取days天后的日期
+            let y = dd.getFullYear()
+            let m = (dd.getMonth() + 1) < 10 ? ('0' + (dd.getMonth() + 1)) : (dd.getMonth() + 1)
+            let d = dd.getDate() < 10 ? ('0' + dd.getDate()) : dd.getDate()
+            let hour = dd.getHours() < 10 ? ('0' + dd.getHours()) : dd.getHours()
+            let min = dd.getMinutes() < 10 ? ('0' + dd.getMinutes()) : dd.getMinutes()
+            let second = dd.getSeconds() < 10 ? ('0' + dd.getSeconds()) : dd.getSeconds()
+            return y + '-' + m + '-' + d
+        }
+    })
+</script>

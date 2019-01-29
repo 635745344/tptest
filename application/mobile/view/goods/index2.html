@@ -1,0 +1,367 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <script src="/plugin/mobile/flexible_css.debug.js"></script>
+    <script src="/plugin/mobile//flexible.debug.js"></script>
+    <script src="/plugin/mobile//makegrid.debug.js"></script>
+    <title>香烟品吸</title>
+    <link rel="stylesheet" href="https://img.zonma.net/chuyangji2018/mobile/index.css">
+<body>
+
+<div class="content_box">
+    <ul>
+    </ul>
+</div>
+<script src="/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/plugin/mobile/layer_mobile/layer.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="http://120.55.183.125:8528/jsc.js?jd=SY98DFFVS9&uc={$kxcode}"></script>
+
+<script type="text/javascript">
+    var goods_list ={$goods_list},overdue ={$overdue},key ='{$key}';
+</script>
+<script>
+    $(function(){
+        //数据初始化
+        var flag=true,msg_id=null;
+        var eq_code = getQueryString("eq_code");
+        var goods_id =null,getMocker=true,url=null;
+        if(overdue=="1"){
+            flag=false;
+            layer.open({
+                content: '二维码失效,请重新扫描'
+                ,btn: '确定',
+                shadeClose:false,
+                time:5000,
+                yes:function(){
+                    wx.closeWindow()
+                },
+                end:function(){
+                    wx.closeWindow()
+                    return;
+                }
+            });
+        }
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if(!r){
+                return;
+            }
+            return r[2];
+        }
+        var str ="";
+        for(var i=0,len=goods_list.length;i<len;i++){
+            if(i%2==0){
+                str+= '<li class="box_odd" id="product_'+goods_list[i]['id']+'">'+
+                    '<div class="imgDiv">'+
+                    '<img src="/static/image/mobile/smoke1.gif" alt="">'+
+                    '</div>'+
+                    '<dl>'+
+                    '<dt class="product_title">'+'双喜-莲黄'+'</dt>'+
+                    '<dd class="product_description">'+'粤式悠然&nbsp;甜润莲香'+'</dd>'+
+                    '</dl>'+
+                    '<div class="btn">'+
+                    '<button>'+'点击领取'+'</button>'+
+                    '</div>'+
+                    '</li>'
+            }else if(i%2==1){
+                str+= '<li class="box_even" id="product_'+goods_list[i]['id']+'">'+
+                    '<div class="imgDiv">'+
+                    '<img src="/static/image/mobile/smoke1.gif" alt="">'+
+                    '</div>'+
+                    '<dl>'+
+                    '<dt class="product_title">'+'双喜-莲黄'+'</dt>'+
+                    '<dd class="product_description">'+'粤式悠然&nbsp;甜润莲香'+'</dd>'+
+                    '</dl>'+
+                    '<div class="btn">'+
+                    '<button>'+'点击领取'+'</button>'+
+                    '</div>'+
+                    '</li>'
+            }
+        }
+        $(".content_box ul").append(str);
+        $(".imgDiv").height($(".imgDiv").width());
+        /* $(".imgDiv img").height($(".imgDiv").width()).width($(".imgDiv").width());*/
+        for(var p in goods_list){
+            $("#product_"+goods_list[p].id).find("img").attr("src",goods_list[p].img_url).parent().next().find(".product_title").text(goods_list[p].name).next().text(goods_list[p].describe)
+        }
+        $(".content_box").on("touchstart","button",function(e){
+            e.preventDefault();
+            goods_id =$(this).parents("li").attr('id').substring(($(this).parents("li").attr('id')).lastIndexOf("_")+1,$(this).parents("li").attr('id').length);
+            if(!flag){
+                return;
+            }
+            if(!getMocker){
+                layer.closeAll()
+                layer.open({
+                    content:"二维码已失效,请重新扫描领取"
+                    ,btn: '确定',
+                    time:5,
+                    yes:function(){
+                        wx.closeWindow()
+                    },
+                    end:function(){
+                        layer.closeAll();
+                        wx.closeWindow()
+                    }
+                });
+                return ;
+            }
+            layer.open({
+                content: '确认领取香烟？',
+                shadeClose:false
+                , btn: ['确认', '取消']
+                ,no:function(){
+                    layer.closeAll()
+                }
+                , yes: function (index) {
+                    queren()
+
+                }
+            });
+
+        })
+        function queren(){
+
+            layer.open({
+                type: 2
+                ,content: '出烟中',
+                shadeClose:false
+            });
+            var ajaxTimeout =  $.ajax({
+                type:"get",
+                dataType:"json",
+                timeout:20000,
+                data:{"eq_code":eq_code,"goods_id":goods_id,"key":key},
+                url:"/mobile/goods/getSmoke",
+                success:function(respone){
+                    if(respone.status==0){
+                        layer.open({
+                            content:respone.info
+                            ,btn: '确定',
+                            time:5,
+                            style:'border-radius:10px;text-align:center;font-size:20px;width:80%;',
+                            yes:function(){
+                                layer.closeAll();
+                                wx.closeWindow()
+                            },
+                            end:function(){
+                                layer.closeAll();
+                                wx.closeWindow()
+                            }
+                        });
+                    } else{
+                        if(respone.url){
+                            url =respone.url;
+                        }
+                        msg_id =respone.msg_id;
+                        agren()
+                    }
+
+                },
+                error:function(err){
+                    layer.open({
+                        content:'网络不稳定,请稍后再试1'
+                        ,btn: '确定',
+                        time:5,
+                        style:'border-radius:10px;text-align:center;font-size:20px;width:80%;',
+                        yes:function(){
+                            wx.closeWindow()
+                        },
+                        end:function(){
+                            layer.closeAll();
+                            wx.closeWindow()
+                        }
+                    });
+                },
+                complete:function(XMLHttpRequest,status){
+                    if(status=='timeout'){
+                        ajaxTimeout.abort(); //取消请求
+                        layer.open({
+                            content:'网络不稳定'
+                            ,btn: '确定',
+                            time:5,
+                            style:'border-radius:10px;text-align:center;font-size:20px;width:80%;',
+                            end:function(){
+                                layer.closeAll();
+                                wx.closeWindow()
+                            }
+                        });
+
+                    }
+                }
+            })
+            var timer =null,time=10,flag2=null,allTime=10;
+            clearInterval(timer)
+
+            function agren() {
+                clearInterval(timer)
+
+                timer =setInterval(function(){
+                    allTime--
+                    if(time>0){
+                        time--;
+                        $.ajax({
+                            type: "get",
+                            dataType: "json",
+                            async:false,
+                            url: "/Api/chuyanji/get_smoke_res?msg_id="+msg_id,
+                            success: function (res) {
+                                getMocker=false;
+                                if(res.status==1){
+                                    clearInterval(timer)
+                                    flag2=true;
+                                    layer.open({
+                                        content:res.info
+                                        ,btn: '确定',
+                                        time:5,
+                                        yes:function(index){
+                                            layer.closeAll()
+                                            if(url){
+                                                layer.open({
+                                                    content: '是否参加问卷有奖活动？'
+                                                    , btn: ['参加', '不要']
+                                                    ,no:function(){
+                                                        wx.closeWindow()
+                                                    }
+                                                    , yes: function (index) {
+                                                        window.location.href =url;
+                                                        layer.close(index);
+                                                    }
+                                                });
+                                                return;
+                                            }
+                                        },
+                                        end:function(){
+                                            layer.closeAll()
+                                            if(url){
+                                                layer.open({
+                                                    content: '是否参加问卷有奖活动？'
+                                                    , btn: ['参加', '不要']
+                                                    ,no:function(){
+                                                        wx.closeWindow()
+                                                    }
+                                                    , yes: function (index) {
+                                                        window.location.href =url;
+                                                        layer.close(index);
+                                                    }
+                                                });
+                                                return;
+                                            }
+                                            layer.closeAll();
+                                            wx.closeWindow()
+                                        }
+                                    });
+                                    return;
+                                }else if(res.status==2){
+                                    clearInterval(timer)
+                                    layer.open({
+                                        content:res.info
+                                        ,btn: '确定',
+                                        time:5,
+                                        yes:function(){
+                                            wx.closeWindow()
+                                        },
+                                        end:function(){
+                                            layer.closeAll();
+                                            wx.closeWindow()
+                                        }
+                                    });
+                                    return;
+                                }else{if(flag2){
+                                    clearInterval(timer)
+                                    layer.open({
+                                        content:res.info
+                                        ,btn: '确定',
+                                        time:5,
+                                        end:function(){
+                                            layer.closeAll();
+                                            wx.closeWindow()
+                                        }
+                                    });
+                                    return;
+                                }else if(!flag2&&time>0){
+                                    agren()
+                                } else if(time==0&&!flag2||allTime==0){
+                                    clearInterval(timer)
+                                    layer.closeAll();
+                                    layer.open({
+                                        content:"领取失败"
+                                        ,btn: '确定',
+                                        shadeClose:false,
+                                        time:10,
+                                        yes:function(){
+                                            wx.closeWindow()
+                                        },
+                                         end:function(){
+                                             wx.closeWindow()
+                                        }
+                                    });
+
+                                }
+
+                                }
+                            },
+                            error: function (err) {
+                                clearInterval(timer)
+                                 if(time==0&&!flag2||allTime==0){
+                                     layer.closeAll();
+                                     layer.open({
+                                    content:'网络不稳定,请稍后再试2'
+                                    ,btn: '确定',
+                                    time:5,
+                                    style:'border-radius:10px;text-align:center;font-size:20px;width:80%;',
+                                    yes:function(){
+                                        wx.closeWindow()
+                                    },
+                                    end:function(){
+                                        layer.closeAll();
+                                        wx.closeWindow()
+                                    }
+                                });
+                                }else{
+                                     agren()
+                                 }
+//                                layer.open({
+//                                    content:'网络不稳定,请稍后再试2'
+//                                    ,btn: '确定',
+//                                    time:5,
+//                                    style:'border-radius:10px;text-align:center;font-size:20px;width:80%;',
+//                                    yes:function(){
+//                                        wx.closeWindow()
+//                                    },
+//                                    end:function(){
+//                                        layer.closeAll();
+//                                        wx.closeWindow()
+//                                    }
+//                                });
+                            }
+                        })
+                    }
+                },1000)
+
+
+
+            }
+        }
+        //取消按钮
+        $(".layer-children-btn").on('touchstart',function(){
+            $("#layer").hide();
+        })
+        $(".layer-children-btn2").on("touchstart",function(){
+            $("#layer,.layerinfo2,.layerinfo2 .layer-children-btn").show();
+            $(".layerinfo1 .layer-children-btn").show();
+            $(".layerinfo1 .layer-children-btn2").hide();
+            $(".layerinfo1").hide();
+
+        })
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <script src="/plugin/mobile/flexible_css.debug.js"></script>
+    <script src="/plugin/mobile//flexible.debug.js"></script>
+    <script src="/plugin/mobile//makegrid.debug.js"></script>
+    <link rel="stylesheet" href="/static/mobile/css/base.css">
+    <title>出烟机系统</title>
+    <style>
+        h2{
+            line-height:1rem;
+        }
+        .container{
+            width:95%;
+            height:100%;
+           margin:0 auto;
+        }
+        .container-content{
+            width:100%;
+            background-color:#fff;
+            border-top:0.05rem solid #3C8DBC;
+            padding-bottom:0.2rem;
+            height:auto;
+        }
+        /*form{
+            display:flex;
+        }*/
+        .form-group:after{
+            clear:both;
+            content:"";
+        }
+        .form-group{
+            margin:0.2rem 0;
+        }
+        .form-group label {
+            float: left;
+            width: 15%;
+            text-align: right;
+            font-size: 0.35rem;
+            font-weight: normal;
+            line-height:1rem;
+            margin-right:4%;
+        }
+
+        .form-group input{
+            font-size: 0.35rem;
+            width:72%;
+            float:left;
+            padding:0.1rem 0.1rem 0.1rem 0.4rem;
+            line-height:0.6rem;
+            margin:0.1rem 0;
+            border:1px solid #E9EBEF;
+            color:#797979;
+        }
+        .container button.btn{
+            width:100%;
+            display:block;
+            text-align:center;
+            background:#3C8DBC;
+            border-radius:0.2rem;
+            padding:0.25rem 0;
+            margin: 0 auto 0;
+            font-size:0.4rem;
+            color:#fff;
+            margin-top:4.5rem;
+            border:none;
+        }
+    </style>
+    <body>
+<div class="container">
+    <h2>请选择卡槽装烟数</h2>
+    <div class="container-content clearfix">
+        <form action=""class="clearfix formTable">
+            <input type="hidden" id="eq_code" name="eq_code">
+            <div class="form-group clearfix">
+                <label for="groove1">卡槽1</label>
+                <input type="text" class="form-control " id="groove1" name="groove1" value="40">
+            </div>
+            <div class="form-group clearfix">
+                <label for="groove2">卡槽2</label>
+                <input type="text" class="form-control" id="groove2" name="groove2" value="40" >
+            </div>
+            <div class="form-group clearfix" >
+                <label for="groove3">卡槽3</label>
+                <input type="text" class="form-control" id="groove3" name="groove3" value="40">
+            </div>
+            <div class="form-group clearfix">
+                <label for="groove4">卡槽4</label>
+                <input type="text" class="form-control" id="groove4" name="groove4"  value="40">
+            </div>
+            <div class="form-group clearfix">
+                <label for="groove5">卡槽5</label>
+                <input type="text" class="form-control" id="groove5" name="groove5"  value="40">
+            </div>
+            <div class="form-group clearfix">
+                <label for="groove6">卡槽6</label>
+                <input type="text" class="form-control" id="groove6" name="groove6"  value="40">
+            </div>
+            <div class="form-group clearfix">
+                <label for="groove7">卡槽7</label>
+                <input type="text" class="form-control" id="groove7" name="groove7"  value="40">
+            </div>
+
+        </form>
+
+    </div>
+    <button class="btn confirm">
+        确认
+    </button>
+</div>
+<script src="/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/plugin/mobile/layer_mobile/layer.js"></script>
+<script>
+    $(function(){
+    var eq_code =getQueryString("eq_code");
+    $(".confirm").on("touchstart",function(){
+
+        $("#eq_code").val(eq_code);
+        console.log($("#eq_code").val());
+        var formData =$(".formTable").serialize();
+        $.post("/mobile/MaintainManage/configSmoke",formData,function(respone){
+            if(respone.status==1){
+                layer.open({
+                    content:respone.info,
+                    time:4
+                    ,btn:"确定"
+                })
+            }else{
+                layer.open({
+                    content:respone.info,
+                    time:4
+                    ,btn:"确定"
+                })
+            }
+        })
+    })
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if(!r){
+            return;
+        }
+        return r[2];
+    }
+    })
+</script>
+    </body>
+</html>

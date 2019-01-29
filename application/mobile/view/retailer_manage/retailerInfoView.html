@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <script src="/plugin/mobile/flexible_css.debug.js"></script>
+    <script src="/plugin/mobile//flexible.debug.js"></script>
+    <script src="/plugin/mobile//makegrid.debug.js"></script>
+    <link rel="stylesheet" href="/plugin/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/mobile/css/base.css">
+    <title>个人信息</title>
+    <style>
+        .container-content{
+            width:100%;
+            background-color:#fff;
+            border-top:0.03rem solid #3C8DBC;
+            padding-bottom:0.2rem;
+        }
+        .container-content ul{
+            width:90%;
+            margin:0.3rem auto 0.4rem;
+
+        }
+        .container-content ul li{
+            width:100%;
+            line-height:0.8rem;
+            font-size:0.35rem;
+        }
+        .container-content ul li span.firstSpan{
+            width:25%;
+            display:inline-block;
+        }
+        .container-content ul li span.secodeSpan{
+            margin-left:0.08rem;
+        }
+        .container button.btn{
+            width:98%;
+            display:block;
+            text-align:center;
+            background:#00A65A;
+            border-radius:0.2rem;
+            padding:0.25rem 0;
+            margin: 0 auto;
+            font-size:0.4rem;
+            color:#fff;
+        }
+        .container button.codeBtn{
+            margin-top:3.5rem;
+        }
+        .container button.operationBtn{
+            margin-top:0.4rem;
+            background:#F39C12;
+        }
+    </style>
+<body>
+<div class="container">
+    <h2>个人信息</h2>
+    <div class="container-content">
+        <ul>
+            <li><span class="firstSpan">烟草专卖号</span>:<span class="secodeSpan">{$shop_info['monopolyId']}</span></li>
+            <li><span class="firstSpan">店铺名</span>:<span class="secodeSpan">{$shop_info['name']}</span></li>
+            <li><span class="firstSpan">联系人</span>:<span class="secodeSpan">{$shop_info['duty_name']}</span></li>
+            <li><span class="firstSpan">联系方式</span>:<span class="secodeSpan">{$shop_info['phone']}</span></li>
+            <li><span class="firstSpan">店铺地址</span>:<span class="secodeSpan">{$shop_info['province']}{$shop_info['city']}{$shop_info['district']}{$shop_info['address']}</span></li>
+            <li><span class="firstSpan">已绑定机器</span>:<span class="secodeSpan">{$shop_info['code']}</span></li>
+            <li><span class="firstSpan">维护员</span>:<span class="secodeSpan">{$shop_info['repairPerson']}</span></li>
+        </ul>
+    </div>
+    <button class="btn codeBtn">店铺二维码</button>
+    <button class="btn operationBtn">其他操作</button>
+</div>
+<script src="/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script>
+    $(function(){
+        var eq_code ='{$eq_code}';
+        $("button.codeBtn").on("touchstart",function(){
+            window.location.href="/mobile/Common/wxFollow";
+        })
+        $("button.operationBtn").on("touchstart",function(){
+            window.location.href="/mobile/RetailerManage/retailerCommandView?eq_code="+eq_code;
+        })
+    })
+</script>
+</body>
+</html>

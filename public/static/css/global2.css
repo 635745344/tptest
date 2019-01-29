@@ -1,0 +1,149 @@
+/*覆盖bootstrap*/
+/*.col-xd-1,.col-xd-2,.col-xd-3,.col-xd-4,.col-xd-5,.col-xd-6,.col-xd-7,.col-xd-8,.col-xd-9,.col-xd-10,.col-xd-11,.col-xd-12,
+.col-sd-1,.col-sd-2,.col-sd-3,.col-sd-4,.col-sd-5,.col-sd-6,.col-sd-7,.col-sd-8,.col-sd-9,.col-sd-10,.col-sd-11,.col-sd-12,
+.col-md-1,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-10,.col-md-11,.col-md-12{
+	margin:2px 0 2px 0;
+}*/
+/*全局覆盖*/
+a{ cursor:pointer; }
+table {
+/*	border-collapse: collapse;
+	border-spacing: 0*/
+	border:1px solid #e6e6e6;
+}
+h1,h2,h3 {
+	font-size: 14px;
+	font-weight: 400
+}
+
+h4,h5,h6 {
+	font-size: 100%;
+	font-weight: 400
+}
+
+button,input,optgroup,option,select,textarea,li {
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	outline: 0
+}
+
+pre {
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word
+}
+
+body,li {
+	line-height: 24px;
+	font: 14px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif
+}
+
+hr {
+	height: 1px;
+	margin: 10px 0;
+	border: 0;
+	clear: both
+}
+/*容器*/
+.dd-main{
+	margin:0px;
+}
+/*表格*/
+.dd-table{
+	border:1px solid #e6e6e6;
+	margin:5px 0 -12px 0;
+}
+	.dd-table th,td{
+		border:1px solid #e6e6e6;
+		text-align:center;
+	}
+	.dd-table th{
+		background-color:#F2F2F2;
+	}
+	.dd-table a{
+		margin-right:5px
+	}
+/*搜索框*/
+.dd-toolbar{
+	
+}
+/*搜索框*/
+.dd-search{
+	
+}
+/*更多搜索表单*/
+.dd-more{
+	display: none; text-align:right;
+}
+/*快捷搜索表单*/
+.dd-quick{
+	float:right;
+}
+/*添加或编辑表单 用于自动排版*/
+.dd-form{
+	padding:0 25px 0 15px;
+}
+	.dd-form .control-label{
+		text-align: center; padding-left:0px; padding-right:0px
+	}
+.dd-form-ctl {
+	text-align: left;padding-left:0px;
+}
+.dd-page a{
+	margin:0px
+}
+.label-required:after{content:'*';color:red;position:absolute;margin-left:4px;font-weight:bold;line-height:1.8em}
+.help-block{ display: inline-block;margin-top:0px;}
+/*图片放大*/
+[data-tips-image]{cursor:zoom-in!important;}
+.main-header .logo{
+	padding:0;
+	text-align:center;
+	font-size:16px;
+}
+.skin-blue .main-header .navbar .nav>li>a{
+	height:50px;
+}
+.skin-blue .main-header .navbar .nav>li>a>span{
+	color:#000;
+	float:left;
+}
+.skin-blue .main-header .navbar .nav>li>a i{
+	color:#000;
+	float:right;
+	line-height:20px;
+	margin-left:10px;
+}
+
+
+
+
+
+
+
+/******************
+后台个人样式
+******************/
+body,html,ul,li{
+	margin:0;
+	padding:0;
+}
+ul{
+	list-style:none;
+}
+.content_box{
+        width:98%;
+        margin:0 auto;
+}
+.content_h2{
+	height:60px;
+	line-height:60px;
+	font-size:24px;
+	margin:0;
+	padding-left:20px;
+	border-bottom: 4px solid #418BB8;
+}

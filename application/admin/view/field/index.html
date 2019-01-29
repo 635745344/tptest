@@ -1,0 +1,34 @@
+<div id="main_1511010745" class="box box-body" style="margin:0">
+    <!-- 工具栏与搜索框 -->
+    <div class="row">
+        <div class="col-md-8 dd-toolbar"></div>
+        <div class="col-md-4 dd-search">
+            <!-- 快捷搜索表单 -->
+            <form class="dd-quick input-group">
+                <div class="input-group-btn" style="padding-right:5px;">
+                    <select id="module1" name="module1" class="form-control">
+                        <option value="0">==模块==</option>
+                    </select>
+                </div>
+            </form>
+            <!--&lt;!&ndash; 更多搜索 &ndash;&gt;-->
+            <!--<form class="dd-more form-inline">-->
+                <!--<div>开始<input name="start_time"></div>-->
+                <!--<div>结束<input name="end_time"></div>-->
+            <!--</form>-->
+        </div>
+    </div>
+    <div class="row dd-table"></div><!-- 表格 -->
+</div>
+<!-- 添加与编辑表单 -->
+<form id="form_1511010745" class="dd-form" style="display:none">
+    <div>模块<select name='module' data-url="/admin/field/getModuleList" ></select></div>
+    <div>表名<input name="table_name" value="user" /></div>
+    <div>数据库字段名<input name="field_name" /></div>
+    <div>名称<input name="name" /></div>
+    <div>备注<input name="remark" /></div>
+</form>
+<script type="text/javascript">
+    
+</script>
+<?php get_js(); ?>

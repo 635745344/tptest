@@ -1,0 +1,297 @@
+<style>
+    .allocation_content{
+        background-color:#fff;
+        padding-top:20px;
+    }
+    .allocation_content h3{
+        font-size:20px;
+        color:#6A6A6A;
+        height:54px;
+        line-height:54px;
+        border-bottom:1px solid #F1F1F1;
+        padding-left:20px;
+        margin:0;
+    }
+    .fenpei{
+        padding:10px;
+        font-size:28px;
+    }
+    #groove_good1{
+        margin:10px 0 0 50px;
+       width:235px;
+        height:38px;
+        cursor:pointer;
+    }
+    #allSun{
+        padding:6px;
+        font-size:16px;
+        width:235px;
+        height:38px;
+        margin:5px 0 0 65px;
+        display:none;
+    }
+    #fenpeiBox{
+        margin:10px 0 0 50px;
+        display:none;
+    }
+    #fenpeiBox .item{
+        font-size:20px;
+    }
+    #fenpeiBox input{
+        width:120px;
+        height:38px;
+        box-sizing: border-box;
+        padding-left:15px;
+    }
+    #confirmBtn{
+        width:234px;
+        height:38px;
+        margin:80px 40px;
+    }
+    .item span{
+        display:inline-block;
+        width:200px;
+        text-align:center;
+    }
+    .groove_fenpei{
+        display:block;
+        float:none;
+        font-size:24px;
+        width:100%;
+        text-align:left;
+    }
+    .layui-form-select{
+        margin-left:50px;
+    }
+    .layui-form-label{
+        width:230px;
+    }
+    .layui-form-item .groove_fenpei,.layui-form-item .groove_fenpei2{
+        width:300px;
+        font-size:24px;
+        color:#000;
+        margin-top:20px;
+    }
+    .layui-form-item .groove_fenpei2{
+        margin-top:0;
+        float:left;
+    }
+    .layui-form-item .layui-inline{
+        display:block;
+    }
+</style>
+<div class="content_box clearfix">
+    <h2 class="content_h2">数量控制</h2>
+
+    <div class="allocation_content">
+        <form  id="allocationForm" class="layui-form">
+            <!--<div class="layui-form-item">-->
+                <!--<div class="layui-inline">-->
+                    <!--<label class="layui-form-label groove_fenpei2" for="groove_fenpei">请选择要配置的烟机组:</label>-->
+                    <!--<div class="layui-input-inline">-->
+                        <!--<select name="groove_fenpei" id="groove_fenpei" lay-filter="groove1">-->
+                            <!--<option value="0">请选择</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label groove_fenpei" for="groove_good1">分配:</label>
+                        <div class="layui-input-inline" style="padding-left:15px;">
+                            <select lay-filter="groove" name="groove_good1" id="groove_good1">
+                                <option value="0">请选择</option>
+                                <option value="1">全部</option>
+                                <option value="2">分类</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--<input id="allSun"type="number" min="0" max="240" placeholder="填写数量">-->
+                <input id="allSun" type="number" name="title"  min="0" max="240" placeholder="填写数量" class="layui-input">
+            </div>
+
+            <div class="fenpeiBox" id="fenpeiBox">
+            </div>
+            <div class="layui-form-item layui-form-button">
+                <button class="layui-btn " id="confirmBtn">确认</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+<script>
+    $(function(){
+        var astrict_type ={$astrict_type},str2="";
+        //要配置的烟机组列表
+//        for(var n in group_list){
+//            str2+='<option value=\''+group_list[n].id+'\'>'+group_list[n].group_name+'</option>';
+//        }
+//        $("#groove_fenpei").append(str2);
+//        //改变分配的方式
+        function changeVal(value){
+            value =value||0;
+            console.log(value)
+            if(value==1){
+
+                $("#groove_good1").val(1);
+                $("#allSun").show();
+                $("#fenpeiBox").hide();
+            }else if(value==2){
+                $("#groove_good1").val(2);
+                $("#fenpeiBox").show();
+                $("#allSun").hide();
+
+            }
+
+        }
+        if(astrict_type==1){
+            changeVal(1)
+        }else if(astrict_type==2){
+            changeVal(2)
+        }
+        //监控select变化
+        layui.use('form', function() {
+            var form = layui.form;
+            form.render('select');
+
+            //状态
+        var falg =true;
+        var total ={$total},goods_list={$goods_list},str="";
+        $("#allSun").val(total)
+        for(var i=0;i<goods_list.length;i++){
+        str+='<div class="layui-form-item item" id="item'+goods_list[i].id+'">'+
+                '<label class="layui-form-label">'+goods_list[i].name+'</label>'+
+                '<div class="layui-input-inline">'+
+                '<input type="text" type="number" min="0" max="40" placeholder="请输入" value="'+goods_list[i].limit+'" class="layui-input">'
+                +'</div>'+
+                '</div>'
+        }
+        $("#fenpeiBox").append(str)
+            form.on('select(groove)', function(data){
+                if(data.value==1){
+                             $("#allSun").show();
+                             $("#fenpeiBox").hide();
+                         }else if(data.value==2){
+                             $("#fenpeiBox").show();
+                             $("#allSun").hide();
+                         }
+            });
+        //烟机组的切换
+//            form.on('select(groove1)', function(data){
+//                 group_id =data.value
+//                $.ajax({
+//                    url:"/group/astrict/get_group_limit",
+//                    type:"get",
+//                    data:{group_id:group_id},
+//                    success:function(res){
+//                        $("#allSun").val(res.choice.total)
+//                        if(res.data){
+//                            for(var i in res.data){
+//                                $("#item"+res.data[i].goods_id+" input").val(res.data[i].limit)
+//
+//                            }
+//                        }
+//                        changeVal(res.choice.astrict_type)
+//                        form.render('select');
+//                    }
+//                })
+//            });
+
+
+        })
+
+
+        //循环获取列表信息
+        function getList(){
+        var item =$("#fenpeiBox .item");
+        var goods_set ={};
+            $.each(item,function(index,item){
+                var items ={}
+                var id =$(item).attr("id").substring(4);
+                var val =$(item).find("input").val()||0;
+                goods_set[id]=val;
+            })
+            console.log("goods_set",goods_set)
+           return goods_set;
+        }
+        $("#fenpeiBox").on("blur","input",function(){
+            var reg =/^([1-9]\d*|0)(\.\d*[1-9])?$/;
+         if(parseInt(this.value)>40){
+             layer.msg("请输入0-40的数字");
+             $(this).val(0);
+         }else if(!reg.exec(this.value)){
+             $(this).val(parseInt(this.value))
+         }
+        })
+    // //加载
+     function load(text){
+         layer.load(3,{
+             content:text,
+             shade:0.5,
+         });
+
+     }
+    // //提示
+     function prompt(text,time){
+         layer.open({
+             title:false,
+             btnAlign:"c",
+             content:"<p style='text-align:center;font-size:18px;'>"+text+"</p>",
+             time:time||6000,
+             shade:0.6,
+             end:function(){
+                 layer.closeAll();
+             }
+
+         })
+     }
+        //确认提交
+        $("#confirmBtn").on("click",function(event){
+            event.preventDefault()
+//            if(!group_id){
+//                layer.msg("请选择要配置的烟机组");
+//                return
+//            }
+            load("提交中");
+            var fenleiVal =$("#groove_good1").val();
+            var data ={}
+//            data.group_id =group_id;
+            if(fenleiVal==1){
+                data.astrict_type =1;
+                data.total =$("#allSun").val();
+            }else if(fenleiVal==2){
+                data.astrict_type =2;
+                data.goods_set =JSON.stringify(getList());
+
+            }
+            console.log("data",data)
+             $.ajax({
+                 type:'post',
+                 url:"/group/astrict/set",
+                 data:data,
+                 success:function(res){
+                     if(res.status==1){
+                         prompt("分配成功")
+                     }else{
+                         prompt(res.msg)
+                         $("#allSun").val(0);
+                     }
+                 },
+                 error:function(err){
+                     alert(JSON.stringify(err))
+                 }
+             })
+//            AjaxRequest({url:"/group/astrict/set",data:data,type:'post'},function(res){
+//                if(res.status==1){
+//                                prompt("分配成功",1)
+//                            }else{
+//                                prompt(res.msg)
+//                                $("#allSun").val(0);
+//                            }
+//            })
+        })
+    })
+</script>
+

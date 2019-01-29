@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <script src="/plugin/mobile/flexible_css.debug.js"></script>
+    <script src="/plugin/mobile//flexible.debug.js"></script>
+    <script src="/plugin/mobile//makegrid.debug.js"></script>
+    <link rel="stylesheet" href="/plugin/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/mobile/css/base.css">
+    <title>送烟机系统</title>
+    <style>
+        @font-face {font-family: "iconfont";
+            src: url('iconfont.eot?t=1524295801232'); /* IE9*/
+            src: url('iconfont.eot?t=1524295801232#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAVMAAsAAAAAB9AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kheY21hcAAAAYAAAABmAAABnM9La09nbHlmAAAB6AAAAV4AAAGIJAHVaGhlYWQAAANIAAAALwAAADYRIVbvaGhlYQAAA3gAAAAcAAAAJAfeA4VobXR4AAADlAAAABAAAAAQD+kAAGxvY2EAAAOkAAAACgAAAAoBOgCkbWF4cAAAA7AAAAAfAAAAIAETAF1uYW1lAAAD0AAAAUUAAAJtPlT+fXBvc3QAAAUYAAAAMwAAAErzTsvgeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk/sU4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVDwrYm7438AQw9zA0AAUZgTJAQAseAzgeJzFkDEOwCAIRT9iG9P0Fq4dmx6oU2cnT8w1LKCLJ/CbJ/BDxABgA8DKpUSAPhBMr7rkPuNwP+LROukJGqtkKa1NmYm8I3kW7GXasUy0bvSs0+97VLbvOtAvSu7YXqV0wD+MVBHHAAB4nE2Pu0oDURCGz5yTvSQmu+bs5WQ3l80mJqtEF1xzKcTdIjaKBsHKdD6AgjZpLBZEsBDxGTTgS6SyyXME7ewsJYkeFdFh4B/+Yb7hRwJCHxMyIjmkoWW0jrbRAUIgNqCi4CK4XtPHDTBcwWC6Qryq50rVik+2gFVE3QzazToTJVEFBUqw4QZtz8cetJoh3oTALAJYefuQ1gqU3EEq55Wu5rv4HgynWlDDtfnOaqQHZU0epCm1KL2RRUGQMU6oCpwwMykkU+J8KKi2MXJWsANpy7P3jjLlPD2+bp4WaywJEMeg5cvKY5S1s7wvbFOjlrSYkXN2prqkw+BlIaeli/VnxAvzrLfkjZwjFRk8pauAlC0Bc0PoZH1IQocBI5fTdz8CiHwifutsMn/tjeGhR864+X85nYK+P4bhPmcDZ8cJRGLORq0/qPf1BPe7+Knbx1xnIVfnZ/71+PknyXBFMwAAeJxjYGRgYADidbIJy+L5bb4ycLMwgMB1Rs5KBP2/gYWBuQHI5WBgAokCAPUMCEYAeJxjYGRgYG7438AQw8IAAkCSkQEVsAAARwoCbQQAAAAD6QAABAAAAAQAAAAAAAAAAHYApADEAAB4nGNgZGBgYGEIZGBlAAEmIOYCQgaG/2A+AwAREgFxAHicZY9NTsMwEIVf+gekEqqoYIfkBWIBKP0Rq25YVGr3XXTfpk6bKokjx63UA3AejsAJOALcgDvwSCebNpbH37x5Y08A3OAHHo7fLfeRPVwyO3INF7gXrlN/EG6QX4SbaONVuEX9TdjHM6bCbXRheYPXuGL2hHdhDx18CNdwjU/hOvUv4Qb5W7iJO/wKt9Dx6sI+5l5XuI1HL/bHVi+cXqnlQcWhySKTOb+CmV7vkoWt0uqca1vEJlODoF9JU51pW91T7NdD5yIVWZOqCas6SYzKrdnq0AUb5/JRrxeJHoQm5Vhj/rbGAo5xBYUlDowxQhhkiMro6DtVZvSvsUPCXntWPc3ndFsU1P9zhQEC9M9cU7qy0nk6T4E9XxtSdXQrbsuelDSRXs1JErJCXta2VELqATZlV44RelzRiT8oZ0j/AAlabsgAAAB4nGNgYoAALgbsgIWRiZGZkYWRlYGxgj8xL6UoPzMlOSM1OTspv4ILxohPYWAAALYICucA') format('woff'),
+            url('iconfont.ttf?t=1524295801232') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+            url('iconfont.svg?t=1524295801232#iconfont') format('svg'); /* iOS 4.1- */
+        }
+
+        .iconfont {
+            font-family:"iconfont" !important;
+            font-size:0.6rem;
+            font-style:normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .icon-androidcheckbox:before { content: "\e623"; }
+
+        .icon-checkbox_d:before { content: "\e672"; }
+
+
+        ul li{
+            line-height:1rem;
+            color:#949596;
+        }
+        ul li span{
+            font-size:0.6rem;
+        }
+        ul li i{
+            margin-right:0.2rem;
+            color:#D7DCDE;
+        }
+        ul li i.icon-androidcheckbox{
+            color:#3C8DBC;
+        }
+        .container button.btn{
+            width:98%;
+            display:block;
+            text-align:center;
+            background:#3C8DBC;
+            border-radius:0.2rem;
+            padding:0.25rem 0;
+            margin: 9.5rem auto 0;
+            font-size:0.4rem;
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>请选择相关报错指令</h2>
+    <ul>
+        <li>
+            <i class="iconfont icon-checkbox_d"></i> <span>送烟机不出烟</span>
+        </li>
+        <li>
+            <i class="iconfont icon-checkbox_d"></i> <span>送烟机显示屏不亮</span>
+        </li>
+        <li>
+            <i class="iconfont icon-checkbox_d"></i> <span>送烟机未联网</span>
+        </li>
+    </ul>
+    <button class="btn" id="update">确认提交</button>
+</div>
+<script src="/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/plugin/mobile/layer_mobile/layer.js"></script>
+<script>
+    $(function(){
+        var eq_code =window.location.href;
+        var index =(eq_code.indexOf("eq_code=")+8);
+        eq_code = eq_code.substring(index);
+        console.log(eq_code);
+        $("ul li").on("touchstart",".iconfont",function(){
+            if($(this).hasClass("icon-checkbox_d")){
+                $(this).removeClass("icon-checkbox_d").addClass("icon-androidcheckbox").parent().addClass("check");
+            }else{
+                $(this).removeClass("icon-androidcheckbox").addClass("icon-checkbox_d").parent().removeClass("check");
+            }
+        })
+        $("#update").on("touchstart",function(e){
+            e.preventDefault();
+            if($("ul li.check").length<=0){
+                /*layer.msg("请选择报错指令");*/
+                layer.open({
+                    content: '请选择报错指令'
+                    ,skin: 'msg'
+                    ,time: 2 //2秒后自动关闭
+                });
+            }else{
+            var str='';
+            for(var i=1;i<$("ul li").length+1;i++){
+                if($($("ul li")[i-1]).hasClass("check")){
+                    str+=i+",";
+                }else{
+                    continue;
+                }
+            }
+            var code =str.substring(0,str.length-1);
+            $.ajax({
+                type:"post",
+                url:"/mobile/RetailerManage/retailerErrorOper",
+                dataType:"json",
+                data:{"eq_code":eq_code,code:code},
+                success:function(respone){
+                    if(respone.status==1){
+                        //提示
+                            /*layer.open({
+                                title:false,
+                                btn:false,
+                                content:"<div style='text-align:center;font-size:0.4rem;'><p align='center'>提交成功</p><p align='center'>请耐心等待工作人员回访</p></div>",
+                                time:4000,
+                                closeBtn: 0,
+                                shade:0.6,
+                                end:function(){
+                                }
+
+                            })*/
+                        layer.open({
+                            content:'<div style="text-align:center;font-size:0.4rem;"><p align="center" style="margin-bottom:0.4rem;">提交成功</p><p align="center">请耐心等待工作人员回访</p></div>',
+                            time:4
+                            ,btn:"确定"
+                        })
+
+                    }
+                }
+
+                })
+            }
+        })
+
+    })
+</script>
+</body>
+</html>

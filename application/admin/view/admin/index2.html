@@ -1,0 +1,17 @@
+<div id="main_1511010745" class="box box-body dd-main">
+    <!-- 工具栏与搜索框 -->
+    <div class="row">
+        <div class="col-md-8 dd-toolbar"></div>
+        <div class="col-md-4 dd-search">
+            <!-- 快捷搜索表单 -->
+            <form class="dd-quick input-group"></form>
+        </div>
+    </div>
+    <div class="row dd-table"></div><!-- 表格 -->
+</div>
+<!-- 添加与编辑表单 -->
+<form id="form_1511010745" class="dd-form" style="display:none">
+    <div>账号<input name="account" /></div>
+    <div>角色<select name='role_id' data-url="/admin/role/get_list" ></select></div>
+</form>
+<?php get_js(); ?>

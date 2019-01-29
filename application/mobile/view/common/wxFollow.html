@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <script src="/plugin/mobile/flexible_css.debug.js"></script>
+    <script src="/plugin/mobile//flexible.debug.js"></script>
+    <script src="/plugin/mobile//makegrid.debug.js"></script>
+    <link rel="stylesheet" href="/plugin/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/mobile/css/base.css">
+    <title>送烟机系统</title>
+    <style>
+        .imgBox{
+            width:60%;
+            margin:2rem auto 0.5rem;
+
+        }
+        .imgBox img{
+            display:block;
+            width:100%;
+            height:100%;
+        }
+        p{
+            color:#222222;
+            font-size:0.5rem;
+            margin:0;
+        }
+    </style>
+<body>
+<div class="imgBox">
+    <img src="" alt="">
+</div>
+<p align="center">请展示该二维码给您的员工</p>
+<p align="center">关注公众号 方便操作</p>
+<script src="/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script>
+    $(function(){
+        var  followQC ='{$followQC}';
+        $(".imgBox").height($(".imgBox").width()).find("img").attr("src",followQC);
+    })
+
+
+</script>
+</body>
+</html>
